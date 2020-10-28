@@ -1,0 +1,86 @@
+package services.headpat.owlcraft.spells.implementation.ice;
+
+import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
+import services.headpat.owlcraft.OwlCraft;
+import services.headpat.owlcraft.spells.Spell;
+import services.headpat.owlcraft.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class IceSpell extends Spell {
+	@Override
+	public String getName() {
+		return "Ice";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Freeze enemies nearby.";
+	}
+
+	@Override
+	public List<Recipe> getGlyphRecipes() {
+		ArrayList<Recipe> recipes = new ArrayList<>();
+
+		ItemStack smallGlyph = this.getGlyph("Small", 1, ChatColor.DARK_PURPLE);
+		NamespacedKey small_key = new NamespacedKey(OwlCraft.getInstance(), "small_ice_glyph");
+		ShapelessRecipe smallRecipe = new ShapelessRecipe(small_key, smallGlyph);
+		smallRecipe.addIngredient(1, Material.INK_SAC);
+		smallRecipe.addIngredient(2, Material.SNOW_BLOCK);
+		smallRecipe.addIngredient(PLAIN_PAPER);
+		recipes.add(smallRecipe);
+
+		ItemStack mediumGlyph = this.getGlyph("Medium", 2, ChatColor.DARK_PURPLE);
+		NamespacedKey medium_key = new NamespacedKey(OwlCraft.getInstance(), "medium_ice_glyph");
+
+		ShapelessRecipe mediumRecipe = new ShapelessRecipe(medium_key, mediumGlyph);
+		mediumRecipe.addIngredient(4, smallGlyph);
+		recipes.add(mediumRecipe);
+
+		ItemStack largeGlyph = this.getGlyph("Large", 3, ChatColor.DARK_PURPLE);
+		NamespacedKey large_key = new NamespacedKey(OwlCraft.getInstance(), "large_ice_glyph");
+		ShapelessRecipe largeRecipe = new ShapelessRecipe(large_key, largeGlyph);
+		largeRecipe.addIngredient(4, mediumGlyph);
+		recipes.add(largeRecipe);
+
+		return recipes;
+	}
+
+	@Override
+	public boolean activateGlyph(@NotNull Entity entity, int level, ItemStack glyphStack) {
+		int ticks = Utils.timeToTicks(0, 3) + (level * 20);
+
+		int targetCnt = 0;
+
+		for (Entity target : entity.getNearbyEntities(4 + level, 4 + level, 4 + level)) {
+			if (target instanceof LivingEntity && this.isTargetable(entity, target)
+					&& !((LivingEntity) target).hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+				targetCnt++;
+
+				((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, ticks, level - 1, false, false, true));
+				((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.JUMP, ticks, 255, false, false, true));
+				BukkitTask task = Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), () -> {
+					if (!target.isDead())
+						target.getWorld().spawnParticle(Particle.REDSTONE, target.getLocation(), 15, 0.5, 0.5, 0.5, new Particle.DustOptions(Color.AQUA, 2));
+				}, 0, 10);
+				Bukkit.getScheduler().runTaskLater(OwlCraft.getInstance(), task::cancel, ticks);
+			}
+		}
+		if (targetCnt > 0) {
+			return true;
+		} else {
+			entity.sendMessage(ChatColor.RED + "No targets found!");
+			return false;
+		}
+	}
+}

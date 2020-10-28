@@ -1,0 +1,9 @@
+name: OwlCraft
+version: ${project.version}
+main: services.headpat.owlcraft.OwlCraft
+api-version: "1.16"
+description: OwlCraft Plugin
+authors: [SunTheCourier, HeadpatServices]
+
+depend:
+  - "GlowAPI"
