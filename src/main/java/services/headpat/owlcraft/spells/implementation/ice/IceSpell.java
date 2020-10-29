@@ -18,6 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IceSpell extends Spell {
+	private final ShapelessRecipe smallGlyphRecipe;
+	private final ShapelessRecipe mediumGlyphRecipe;
+	private final ShapelessRecipe largeGlyphRecipe;
+
+	public IceSpell() {
+		smallGlyphRecipe = this.createGlyphRecipe("Small", 1, ChatColor.DARK_PURPLE, new ItemStack(Material.SNOW_BLOCK, 2));
+		ItemStack medium = smallGlyphRecipe.getResult();
+		medium.setAmount(4);
+		mediumGlyphRecipe = this.createGlyphRecipe("Medium", 2, ChatColor.DARK_PURPLE, medium);
+		ItemStack large = mediumGlyphRecipe.getResult();
+		large.setAmount(4);
+		largeGlyphRecipe = this.createGlyphRecipe("Large", 2, ChatColor.DARK_PURPLE, large);
+	}
+
 	@Override
 	public String getName() {
 		return "Ice";
@@ -29,35 +43,16 @@ public class IceSpell extends Spell {
 	}
 
 	@Override
-	public List<Recipe> getGlyphRecipes() {
+	public List<Recipe> getRecipes() {
 		ArrayList<Recipe> recipes = new ArrayList<>();
-
-		ItemStack smallGlyph = this.getGlyph("Small", 1, ChatColor.DARK_PURPLE);
-		NamespacedKey small_key = new NamespacedKey(OwlCraft.getInstance(), "small_ice_glyph");
-		ShapelessRecipe smallRecipe = new ShapelessRecipe(small_key, smallGlyph);
-		smallRecipe.addIngredient(1, Material.INK_SAC);
-		smallRecipe.addIngredient(2, Material.SNOW_BLOCK);
-		smallRecipe.addIngredient(PLAIN_PAPER);
-		recipes.add(smallRecipe);
-
-		ItemStack mediumGlyph = this.getGlyph("Medium", 2, ChatColor.DARK_PURPLE);
-		NamespacedKey medium_key = new NamespacedKey(OwlCraft.getInstance(), "medium_ice_glyph");
-
-		ShapelessRecipe mediumRecipe = new ShapelessRecipe(medium_key, mediumGlyph);
-		mediumRecipe.addIngredient(4, smallGlyph);
-		recipes.add(mediumRecipe);
-
-		ItemStack largeGlyph = this.getGlyph("Large", 3, ChatColor.DARK_PURPLE);
-		NamespacedKey large_key = new NamespacedKey(OwlCraft.getInstance(), "large_ice_glyph");
-		ShapelessRecipe largeRecipe = new ShapelessRecipe(large_key, largeGlyph);
-		largeRecipe.addIngredient(4, mediumGlyph);
-		recipes.add(largeRecipe);
-
+		recipes.add(smallGlyphRecipe);
+		recipes.add(mediumGlyphRecipe);
+		recipes.add(largeGlyphRecipe);
 		return recipes;
 	}
 
 	@Override
-	public boolean activateGlyph(@NotNull Entity entity, int level, ItemStack glyphStack) {
+	public boolean activateSpell(@NotNull Entity entity, int level, ItemStack glyphStack) {
 		int ticks = Utils.timeToTicks(0, 3) + (level * 20);
 
 		int targetCnt = 0;

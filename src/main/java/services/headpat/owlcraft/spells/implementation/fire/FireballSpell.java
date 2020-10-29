@@ -21,6 +21,12 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class FireballSpell extends Spell {
+	private final ShapelessRecipe glyphRecipe;
+
+	public FireballSpell() {
+		glyphRecipe = this.createGlyphRecipe("", 1, ChatColor.DARK_PURPLE, new ItemStack(Material.TNT, 2));
+	}
+
 	@Override
 	public String getName() {
 		return "Fireball";
@@ -32,21 +38,14 @@ public class FireballSpell extends Spell {
 	}
 
 	@Override
-	public List<Recipe> getGlyphRecipes() {
+	public List<Recipe> getRecipes() {
 		ArrayList<Recipe> recipes = new ArrayList<>();
-		ItemStack item = this.getGlyph("", 1, ChatColor.DARK_PURPLE);
-		NamespacedKey key = new NamespacedKey(OwlCraft.getInstance(), "explosion_glyph");
-		ShapelessRecipe recipe = new ShapelessRecipe(key, item);
-		recipe.addIngredient(2, Material.TNT);
-		recipe.addIngredient(1, Material.INK_SAC);
-		recipe.addIngredient(PLAIN_PAPER);
-
-		recipes.add(recipe);
+		recipes.add(glyphRecipe);
 		return recipes;
 	}
 
 	@Override
-	public boolean activateGlyph(Entity entity, int level, ItemStack glyphStack) {
+	public boolean activateSpell(Entity entity, int level, ItemStack glyphStack) {
 		if (!(entity instanceof Player)) {
 			return false;
 		}

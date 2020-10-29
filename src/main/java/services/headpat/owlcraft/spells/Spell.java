@@ -5,6 +5,7 @@ import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +13,7 @@ import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 import services.headpat.owlcraft.utils.Utils;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,10 +21,6 @@ import java.util.Set;
 public abstract class Spell {
 	public static final NamespacedKey SPELL_NAME_KEY = new NamespacedKey(OwlCraft.getInstance(), "spell_name");
 	public static final NamespacedKey SPELL_LEVEL_KEY = new NamespacedKey(OwlCraft.getInstance(), "spell_level");
-	public static final NamespacedKey WAND_COOLDOWN = new NamespacedKey(OwlCraft.getInstance(), "wand_cooldown");
-	public static final NamespacedKey WAND_USE = new NamespacedKey(OwlCraft.getInstance(), "wand_use_cnt");
-	public static final NamespacedKey WAND_MAX_USE = new NamespacedKey(OwlCraft.getInstance(), "wand_max_use");
-	public static final ItemStack PLAIN_PAPER = new ItemStack(Material.PAPER, 1);
 	private static final Set<EntityType> ENTITY_BLACKLIST = new HashSet<>();
 
 	static {
@@ -113,21 +111,30 @@ public abstract class Spell {
 	 */
 	public abstract String getDescription();
 
-	public abstract List<Recipe> getGlyphRecipes();
+	public abstract List<Recipe> getRecipes();
 
-	public abstract boolean activateGlyph(Entity entity, int level, ItemStack glyphStack);
+	public abstract boolean activateSpell(Entity entity, int level, ItemStack glyphStack);
 
-	//public abstract double activateSpell(Entity entity);
-
-	public ItemStack getGlyph(@NotNull String size, Integer level, ChatColor loreColor) {
+	protected ItemStack createGlyph(@NotNull String size, int level, ChatColor loreChatColor) {
 		ItemStack item = new ItemStack(Material.PAPER);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(ChatColor.AQUA + size + (!size.equals("") ? " " : "") + this.getName() + " Glyph");
-		meta.setLore(Utils.wrapLore(loreColor + this.getDescription()));
+		meta.setLore(Utils.wrapLore(this.getDescription(), loreChatColor));
 		Utils.addBaseFlags(meta);
 		meta.getPersistentDataContainer().set(Spell.SPELL_NAME_KEY, PersistentDataType.STRING, this.getName());
 		meta.getPersistentDataContainer().set(Spell.SPELL_LEVEL_KEY, PersistentDataType.INTEGER, level);
 		item.setItemMeta(meta);
 		return item;
+	}
+
+	protected ShapelessRecipe createGlyphRecipe(String size, int level, ChatColor loreChatColor, ItemStack @NotNull ... ingredients) {
+		ItemStack stack = this.createGlyph(size, level, loreChatColor);
+
+		NamespacedKey namespacedKey = new NamespacedKey(OwlCraft.getInstance(), size + (!size.equals("") ? "_" : "") + getName().toLowerCase() + "_glyph");
+		ShapelessRecipe recipe = new ShapelessRecipe(namespacedKey, stack);
+		recipe.addIngredient(Material.PAPER);
+		recipe.addIngredient(Material.INK_SAC);
+		Arrays.stream(ingredients).forEach(recipe::addIngredient);
+		return recipe;
 	}
 }

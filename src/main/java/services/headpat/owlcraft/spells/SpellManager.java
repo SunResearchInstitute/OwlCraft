@@ -42,7 +42,7 @@ public class SpellManager implements Listener {
 		if (spell instanceof Listener) {
 			Bukkit.getPluginManager().registerEvents((Listener) spell, OwlCraft.getInstance());
 		}
-		List<Recipe> recipes = spell.getGlyphRecipes();
+		List<Recipe> recipes = spell.getRecipes();
 		if (recipes != null)
 			recipes.forEach(Bukkit::addRecipe);
 		this.spells.put(spell.getName(), spell);
@@ -225,7 +225,7 @@ public class SpellManager implements Listener {
 			return (false);
 		}
 
-		return spell.activateGlyph(entity, level, stack);
+		return spell.activateSpell(entity, level, stack);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

@@ -1,6 +1,7 @@
 package services.headpat.owlcraft.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -59,7 +60,7 @@ public class Utils {
 	 * @param lineLength The maximum length for a single line.
 	 * @return The text-wrapped lore.
 	 */
-	public static @NotNull List<String> wrapLore(@NotNull String lore, int lineLength) {
+	public static @NotNull List<String> wrapLore(@NotNull String lore, int lineLength, ChatColor loreChatColor) {
 		String[] words = lore.split(" ");
 
 		List<String> result = new ArrayList<>();
@@ -76,7 +77,7 @@ public class Utils {
 			builder.append(word);
 		}
 		if (builder.length() != 0) {
-			result.add(builder.toString());
+			result.add(loreChatColor + "" + ChatColor.ITALIC + builder.toString());
 		}
 
 		return (result);
@@ -89,7 +90,11 @@ public class Utils {
 	 * @return The text-wrapped lore.
 	 */
 	public static @NotNull List<String> wrapLore(String lore) {
-		return (Utils.wrapLore(lore, 25));
+		return (Utils.wrapLore(lore, 25, ChatColor.DARK_PURPLE));
+	}
+
+	public static @NotNull List<String> wrapLore(String lore, ChatColor loreChatColor) {
+		return (Utils.wrapLore(lore, 25, loreChatColor));
 	}
 
 	public static void addBaseFlags(@NotNull ItemMeta meta) {
