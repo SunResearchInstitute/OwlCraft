@@ -9,6 +9,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 import services.headpat.owlcraft.utils.Utils;
@@ -113,7 +114,7 @@ public abstract class Spell {
 
 	public abstract List<Recipe> getRecipes();
 
-	public abstract boolean activateSpell(Entity entity, int level, ItemStack glyphStack);
+	public abstract boolean activateSpell(@NotNull Entity entity, int level, @Nullable ItemStack glyphStack);
 
 	protected ItemStack createGlyph(@NotNull String size, int level, ChatColor loreChatColor) {
 		ItemStack item = new ItemStack(Material.PAPER);
