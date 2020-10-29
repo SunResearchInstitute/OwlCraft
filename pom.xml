@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>services.headpat</groupId>
-	<artifactId>owlcraft</artifactId>
+	<artifactId>OwlCraft</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Owlcraft</name>
+	<name>OwlCraft</name>
 
 	<properties>
 		<java.version>1.8</java.version>
