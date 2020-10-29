@@ -130,8 +130,7 @@ public abstract class Spell {
 
 	protected ShapelessRecipe createGlyphRecipe(String size, int level, ChatColor loreChatColor, ItemStack @NotNull ... ingredients) {
 		ItemStack stack = this.createGlyph(size, level, loreChatColor);
-
-		NamespacedKey namespacedKey = new NamespacedKey(OwlCraft.getInstance(), size + (!size.equals("") ? "_" : "") + getName().toLowerCase() + "_glyph");
+		NamespacedKey namespacedKey = new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph");
 		ShapelessRecipe recipe = new ShapelessRecipe(namespacedKey, stack);
 		recipe.addIngredient(Material.PAPER);
 		recipe.addIngredient(Material.INK_SAC);
