@@ -7,3 +7,7 @@ authors: [SunTheCourier, HeadpatServices]
 
 depend:
   - "GlowAPI"
+
+softdepend:
+  - "Essentials"
+  - "NickNamer"
