@@ -2,11 +2,9 @@ package services.headpat.owlcraft;
 
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import services.headpat.owlcraft.external.GlowAPIController;
-import services.headpat.owlcraft.external.NickNameListener;
 import services.headpat.owlcraft.spells.SpellManager;
 import services.headpat.owlcraft.spells.implementation.fire.FireballSpell;
 import services.headpat.owlcraft.spells.implementation.ice.IceSpell;
@@ -32,10 +30,6 @@ public final class OwlCraft extends JavaPlugin {
 		spellManager = new SpellManager();
 		glowAPIController = new GlowAPIController();
 		loadSpells(spellManager);
-
-		if (Bukkit.getPluginManager().getPlugin("NickNamer") != null && Bukkit.getPluginManager().getPlugin("Essentials") != null) {
-			Bukkit.getPluginManager().registerEvents(new NickNameListener(), this);
-		}
 	}
 
 	@Override
