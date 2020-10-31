@@ -103,16 +103,16 @@ public abstract class Spell {
 	 *
 	 * @return The power's name.
 	 */
-	public abstract String getName();
+	public abstract @NotNull String getName();
 
 	/**
 	 * Gets a brief description of how this power works.
 	 *
 	 * @return The power's description.
 	 */
-	public abstract String getDescription();
+	public abstract @NotNull String getDescription();
 
-	public abstract List<Recipe> getRecipes();
+	public abstract @Nullable List<Recipe> getRecipes();
 
 	public abstract boolean activateSpell(@NotNull Entity entity, int level, @Nullable ItemStack glyphStack);
 

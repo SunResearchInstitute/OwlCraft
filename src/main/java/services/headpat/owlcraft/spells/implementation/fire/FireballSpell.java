@@ -30,12 +30,12 @@ public class FireballSpell extends Spell {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Fireball";
 	}
 
 	@Override
-	public String getDescription() {
+	public @NotNull String getDescription() {
 		return "Create a fiery explosion!";
 	}
 

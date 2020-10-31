@@ -23,13 +23,13 @@ import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellCastEvent;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.BiPredicate;
 
 @SuppressWarnings("unused")
 public class SpellManager implements Listener {
 	private final Map<String, Spell> spells = new HashMap<>();
-	private final Collection<Spell> spellsView = Collections.unmodifiableCollection(this.spells.values());
 
 	private final Map<Entity, Map<Spell, SpellContext<?>>> activeSpells = new HashMap<>();
 	private final Map<Spell, Map<Entity, SpellContext<?>>> activeUsers = new HashMap<>();
@@ -49,25 +49,12 @@ public class SpellManager implements Listener {
 		spell.spellManager = this;
 	}
 
-	//TODO: test
-
-	/**
-	 * Should only be used for a small amount of time if you need to rename a spell.
-	 * By the time this is used the renamed spell should be register using {@link SpellManager#add}
-	 */
-	public void addBackwardsComparability(String spellName, Spell executer) {
-		this.spells.put(spellName, executer);
-	}
-
-	public Spell get(String spell) {
-		if (spell == null) {
-			return (null);
-		}
+	public Spell get(@NotNull String spell) {
 		return (this.spells.get(spell));
 	}
 
-	public Collection<Spell> getSpellsView() {
-		return (this.spellsView);
+	public Collection<Spell> getSpellsCollection() {
+		return (Collections.unmodifiableCollection(this.spells.values()));
 	}
 
 	public boolean isCapable(Entity entity) {
@@ -130,7 +117,8 @@ public class SpellManager implements Listener {
 		this.setInactive(spell, entity, true);
 	}
 
-	public SpellContext<?> getContext(Spell spell, Entity entity) {
+	public @Nullable
+	SpellContext<?> getContext(Spell spell, Entity entity) {
 		Map<Spell, SpellContext<?>> activeSpell = this.activeSpells.get(entity);
 		if (activeSpell == null) {
 			return (null);

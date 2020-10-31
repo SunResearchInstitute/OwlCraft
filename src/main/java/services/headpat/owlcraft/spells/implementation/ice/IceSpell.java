@@ -34,12 +34,12 @@ public class IceSpell extends Spell {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Ice";
 	}
 
 	@Override
-	public String getDescription() {
+	public @NotNull String getDescription() {
 		return "Freeze enemies nearby.";
 	}
 
