@@ -1,6 +1,7 @@
 package services.headpat.owlcraft.spells;
 
 import lombok.Getter;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
@@ -22,6 +23,10 @@ import java.util.Set;
 public abstract class Spell {
 	public static final NamespacedKey SPELL_NAME_KEY = new NamespacedKey(OwlCraft.getInstance(), "spell_name");
 	public static final NamespacedKey SPELL_LEVEL_KEY = new NamespacedKey(OwlCraft.getInstance(), "spell_level");
+	/**
+	 * List of entities you cannot target, should not be used directly.
+	 * Use {@link #isTargetable}.
+	 */
 	private static final Set<EntityType> ENTITY_BLACKLIST = new HashSet<>();
 
 	static {
@@ -42,8 +47,11 @@ public abstract class Spell {
 		ENTITY_BLACKLIST.add(EntityType.PRIMED_TNT);
 	}
 
+	/**
+	 * SpellManager instance.
+	 */
 	@Getter
-	SpellManager spellManager = null;
+	public SpellManager spellManager = null;
 
 	/**
 	 * Checks if an entity is blacklisted from being affected from powers by default.
@@ -99,23 +107,30 @@ public abstract class Spell {
 	}
 
 	/**
-	 * Gets the power's name.
+	 * Gets the spell's name.
 	 *
-	 * @return The power's name.
+	 * @return The spell's name.
 	 */
 	public abstract @NotNull String getName();
 
 	/**
-	 * Gets a brief description of how this power works.
+	 * Gets a brief description of how this spell works.
 	 *
-	 * @return The power's description.
+	 * @return The spell's description.
 	 */
 	public abstract @NotNull String getDescription();
 
+	/**
+	 * @return List of recipes to add when registered.
+	 */
 	public abstract @Nullable List<Recipe> getRecipes();
 
 	public abstract boolean activateSpell(@NotNull Entity entity, int level, @Nullable ItemStack glyphStack);
 
+	/**
+	 * Creates the glyph ItemStack, should not be called directly.
+	 * Use {@link #createGlyphRecipe(String, int, ChatColor, ItemStack...)}.
+	 */
 	protected ItemStack createGlyph(@NotNull String size, int level, ChatColor loreChatColor) {
 		ItemStack item = new ItemStack(Material.PAPER);
 		ItemMeta meta = item.getItemMeta();
@@ -128,8 +143,18 @@ public abstract class Spell {
 		return item;
 	}
 
-	protected ShapelessRecipe createGlyphRecipe(String size, int level, ChatColor loreChatColor, ItemStack @NotNull ... ingredients) {
+	/**
+	 * @param size          Prefixes the glyph name. This is usually Small, Medium, or Large. This call also be an empty or null string if there should be no sizes.
+	 * @param level         The level or magnitude of the glyph. This should usually correspond to the size.
+	 * @param loreChatColor Color of the lore.
+	 * @param ingredients   Array of ingredients the glyph will use. Every glyph will always require one ink sac and one paper.
+	 * @return The glyph recipe with the appropriate metadata.
+	 */
+	protected ShapelessRecipe createGlyphRecipe(@Nullable String size, int level, @NotNull ChatColor loreChatColor, @NotNull ItemStack... ingredients) {
+		if (StringUtils.isBlank(size))
+			size = "";
 		ItemStack stack = this.createGlyph(size, level, loreChatColor);
+
 		NamespacedKey namespacedKey = new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph");
 		ShapelessRecipe recipe = new ShapelessRecipe(namespacedKey, stack);
 		recipe.addIngredient(Material.PAPER);

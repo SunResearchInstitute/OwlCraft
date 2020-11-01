@@ -71,7 +71,7 @@ public class Utils {
 					builder.append(' ');
 				}
 			} else {
-				result.add(builder.toString());
+				result.add(loreChatColor + "" + ChatColor.ITALIC + builder.toString());
 				builder.setLength(0);
 			}
 			builder.append(word);

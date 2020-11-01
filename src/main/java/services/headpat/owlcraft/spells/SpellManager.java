@@ -38,6 +38,11 @@ public class SpellManager implements Listener {
 		Bukkit.getPluginManager().registerEvents(this, OwlCraft.getInstance());
 	}
 
+
+	/**
+	 * Register spells.
+	 * @param spell Spell to register.
+	 */
 	public void add(Spell spell) {
 		if (spell instanceof Listener) {
 			Bukkit.getPluginManager().registerEvents((Listener) spell, OwlCraft.getInstance());
