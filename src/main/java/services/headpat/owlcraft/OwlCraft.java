@@ -10,6 +10,8 @@ import services.headpat.owlcraft.spells.SpellManager;
 import services.headpat.owlcraft.spells.implementation.fire.FireballSpell;
 import services.headpat.owlcraft.spells.implementation.ice.IceSpell;
 
+import java.util.HashMap;
+
 public final class OwlCraft extends JavaPlugin {
 	@Getter
 	private static OwlCraft instance;
@@ -31,8 +33,16 @@ public final class OwlCraft extends JavaPlugin {
 	public void onEnable() {
 		metrics = new Metrics(this, 9241);
 		metricsListener = new MetricsListener();
-		metrics.addCustomChart(new Metrics.AdvancedPie("spells_crafted", () -> metricsListener.getSpellsCrafted()));
-		metrics.addCustomChart(new Metrics.AdvancedPie("spells_casted", () -> metricsListener.getSpellsCasted()));
+		metrics.addCustomChart(new Metrics.AdvancedPie("spells_crafted", () -> {
+			HashMap<String, Integer> map = (HashMap<String, Integer>) metricsListener.getSpellsCrafted().clone();
+			metricsListener.getSpellsCrafted().clear();
+			return map;
+		}));
+		metrics.addCustomChart(new Metrics.AdvancedPie("spells_casted", () -> {
+			HashMap<String, Integer> map = (HashMap<String, Integer>) metricsListener.getSpellsCasted().clone();
+			metricsListener.getSpellsCrafted().clear();
+			return map;
+		}));
 		spellManager = new SpellManager();
 		glowAPIController = new GlowAPIController();
 		loadSpells(spellManager);

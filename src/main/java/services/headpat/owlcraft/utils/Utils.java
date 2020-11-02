@@ -127,4 +127,13 @@ public class Utils {
 		}
 		return stack;
 	}
+
+	@Contract(pure = true)
+	public static String @NotNull [] addBeginningString(String str, String @NotNull ... strings) {
+		String[] newStrings = new String[strings.length + 1];
+		newStrings[0] = str;
+		if (strings.length - 1 >= 0)
+			System.arraycopy(strings, 0, newStrings, 1, strings.length - 1);
+		return newStrings;
+	}
 }
