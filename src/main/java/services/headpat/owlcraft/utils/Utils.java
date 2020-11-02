@@ -3,6 +3,8 @@ package services.headpat.owlcraft.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -11,9 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import services.headpat.owlcraft.OwlCraft;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,17 +37,6 @@ public class Utils {
 			PotionEffectType.SLOW_FALLING,
 			PotionEffectType.SPEED,
 	};
-
-	public static @NotNull File getPluginFolder() {
-		return OwlCraft.getInstance().getDataFolder();
-	}
-
-	public static boolean createFolder(@NotNull File folder) {
-		if (!folder.exists())
-			return folder.mkdir();
-		else
-			return true;
-	}
 
 	public static int timeToTicks(int minutes, int seconds) {
 		return ((minutes * 60) + seconds) * 20;
@@ -132,8 +121,16 @@ public class Utils {
 	public static String @NotNull [] addBeginningString(String str, String @NotNull ... strings) {
 		String[] newStrings = new String[strings.length + 1];
 		newStrings[0] = str;
-		if (strings.length - 1 >= 0)
-			System.arraycopy(strings, 0, newStrings, 1, strings.length - 1);
+		System.arraycopy(strings, 0, newStrings, 1, strings.length);
 		return newStrings;
+	}
+
+	public static @NotNull String getBrigadierString(@NotNull Command command, String[] args) {
+		return String.join(" ", Utils.addBeginningString(command.getName(), args));
+	}
+
+	public static void sendUsageMessage(@NotNull CommandSender sender, String[] brigadierUsages) {
+		sender.sendMessage(ChatColor.RED + "Usages:");
+		Arrays.stream(brigadierUsages).forEach(s -> sender.sendMessage(ChatColor.RED + "/" + s));
 	}
 }
