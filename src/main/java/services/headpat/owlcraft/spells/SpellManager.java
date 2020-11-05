@@ -213,12 +213,13 @@ public class SpellManager implements Listener {
 			return (false);
 		}
 
-		SpellCastEvent event = new SpellCastEvent(spell, level, entity);
+		SpellCastEvent event = new SpellCastEvent(spell, level, stack, entity);
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled()) {
 			return (false);
 		}
 		level = event.getLevel();
+		stack = event.getGlyphStack();
 
 		return spell.activateSpell(entity, level, stack);
 	}
