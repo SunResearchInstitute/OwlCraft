@@ -219,7 +219,6 @@ public class SpellManager implements Listener {
 			return (false);
 		}
 		level = event.getLevel();
-		stack = event.getGlyphStack();
 
 		return spell.activateSpell(entity, level, stack);
 	}

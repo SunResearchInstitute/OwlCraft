@@ -18,14 +18,19 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 	@Setter
 	private int level;
 	@Nullable
-	@Getter
-	@Setter
-	private ItemStack glyphStack;
+	private final ItemStack glyphStack;
 
 	public SpellCastEvent(Spell power, int level, @Nullable ItemStack glyphStack, Entity what) {
 		super(power, what);
 		this.level = level;
 		this.glyphStack = glyphStack;
+	}
+
+	public ItemStack getGlyphStack() {
+		if (glyphStack == null)
+			return null;
+
+		return glyphStack.clone();
 	}
 
 	/* Generated for Bukkit */
