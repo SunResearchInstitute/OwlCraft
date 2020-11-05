@@ -59,7 +59,7 @@ public class SpellManager implements Listener {
 		return (this.spells.get(spell));
 	}
 
-	public Collection<Spell> getSpellsCollection() {
+	public Collection<Spell> getSpells() {
 		return (Collections.unmodifiableCollection(this.spells.values()));
 	}
 
