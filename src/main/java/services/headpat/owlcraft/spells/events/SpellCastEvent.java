@@ -12,9 +12,13 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 	@Getter
 	@Setter
 	private boolean cancelled = false;
+	@Getter
+	@Setter
+	private int level;
 
-	public SpellCastEvent(Spell power, Entity what) {
+	public SpellCastEvent(Spell power, int level, Entity what) {
 		super(power, what);
+		this.level = level;
 	}
 
 	/* Generated for Bukkit */

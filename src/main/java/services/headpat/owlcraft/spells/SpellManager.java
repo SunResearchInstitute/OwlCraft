@@ -41,6 +41,7 @@ public class SpellManager implements Listener {
 
 	/**
 	 * Register spells.
+	 *
 	 * @param spell Spell to register.
 	 */
 	public void add(Spell spell) {
@@ -212,11 +213,12 @@ public class SpellManager implements Listener {
 			return (false);
 		}
 
-		SpellCastEvent event = new SpellCastEvent(spell, entity);
+		SpellCastEvent event = new SpellCastEvent(spell, level, entity);
 		Bukkit.getPluginManager().callEvent(event);
 		if (event.isCancelled()) {
 			return (false);
 		}
+		level = event.getLevel();
 
 		return spell.activateSpell(entity, level, stack);
 	}
