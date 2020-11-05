@@ -29,7 +29,7 @@ public class MetricsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onSpellCastEvent(CraftItemEvent event) {
-		for (Spell spell : OwlCraft.getInstance().getSpellManager().getSpellsCollection()) {
+		for (Spell spell : OwlCraft.getInstance().getSpellManager().getSpells()) {
 			List<Recipe> recipes = spell.getRecipes();
 			if (recipes != null) {
 				for (Recipe recipe : recipes) {
