@@ -121,6 +121,15 @@ public abstract class Spell {
 	public abstract @NotNull String getDescription();
 
 	/**
+	 * Spell type.
+	 *
+	 * @return The coven the spell is part of.
+	 */
+	public @NotNull String getCoven() {
+		return "";
+	}
+
+	/**
 	 * @return List of recipes to add when registered.
 	 */
 	public abstract @Nullable List<Recipe> getRecipes();
