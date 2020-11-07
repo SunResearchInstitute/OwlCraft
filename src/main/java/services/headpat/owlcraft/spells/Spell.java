@@ -138,7 +138,7 @@ public abstract class Spell {
 
 	/**
 	 * Creates the glyph ItemStack, should not be called directly.
-	 * Use {@link #createGlyphRecipe(String, int, ChatColor, ItemStack...)}.
+	 * Use {@link #createGlyphRecipe(String, int, boolean, ChatColor, ItemStack...)}.
 	 */
 	protected ItemStack createGlyph(@NotNull String size, int level, ChatColor loreChatColor) {
 		ItemStack item = new ItemStack(Material.PAPER);
