@@ -25,7 +25,7 @@ public class FireballSpell extends Spell {
 	private final ShapelessRecipe glyphRecipe;
 
 	public FireballSpell() {
-		glyphRecipe = this.createGlyphRecipe(null, 1, ChatColor.DARK_PURPLE, new ItemStack(Material.TNT, 2));
+		glyphRecipe = this.createGlyphRecipe(null, 1, true, ChatColor.DARK_PURPLE, new ItemStack(Material.TNT, 2));
 	}
 
 	@Override

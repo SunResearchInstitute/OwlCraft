@@ -24,13 +24,13 @@ public class IceSpell extends Spell {
 	private final ShapelessRecipe largeGlyphRecipe;
 
 	public IceSpell() {
-		smallGlyphRecipe = this.createGlyphRecipe("Small", 1, ChatColor.DARK_PURPLE, new ItemStack(Material.SNOW_BLOCK, 2));
+		smallGlyphRecipe = this.createGlyphRecipe("Small", 1, true, ChatColor.DARK_PURPLE, new ItemStack(Material.SNOW_BLOCK, 2));
 		ItemStack medium = smallGlyphRecipe.getResult();
 		medium.setAmount(4);
-		mediumGlyphRecipe = this.createGlyphRecipe("Medium", 2, ChatColor.DARK_PURPLE, medium);
+		mediumGlyphRecipe = this.createGlyphRecipe("Medium", 2, false, ChatColor.DARK_PURPLE, medium);
 		ItemStack large = mediumGlyphRecipe.getResult();
 		large.setAmount(4);
-		largeGlyphRecipe = this.createGlyphRecipe("Large", 2, ChatColor.DARK_PURPLE, large);
+		largeGlyphRecipe = this.createGlyphRecipe("Large", 2, false, ChatColor.DARK_PURPLE, large);
 	}
 
 	@Override

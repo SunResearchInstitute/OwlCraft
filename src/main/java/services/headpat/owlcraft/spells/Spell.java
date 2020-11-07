@@ -153,21 +153,24 @@ public abstract class Spell {
 	}
 
 	/**
-	 * @param size          Prefixes the glyph name. This is usually Small, Medium, or Large. This call also be an empty or null string if there should be no sizes.
-	 * @param level         The level or magnitude of the glyph. This should usually correspond to the size.
-	 * @param loreChatColor Color of the lore.
-	 * @param ingredients   Array of ingredients the glyph will use. Every glyph will always require one ink sac and one paper.
+	 * @param size                   Prefixes the glyph name. This is usually Small, Medium, or Large. This call also be an empty or null string if there should be no sizes.
+	 * @param level                  The level or magnitude of the glyph. This should usually correspond to the size.
+	 * @param includeBaseIngredients Whether to include the base ingredients (paper and an ink sac).
+	 * @param loreChatColor          Color of the lore.
+	 * @param ingredients            Array of ingredients the glyph will use. Every glyph will always require one ink sac and one paper.
 	 * @return The glyph recipe with the appropriate metadata.
 	 */
-	protected ShapelessRecipe createGlyphRecipe(@Nullable String size, int level, @NotNull ChatColor loreChatColor, @NotNull ItemStack... ingredients) {
+	protected ShapelessRecipe createGlyphRecipe(@Nullable String size, int level, boolean includeBaseIngredients, @NotNull ChatColor loreChatColor, @NotNull ItemStack... ingredients) {
 		if (StringUtils.isBlank(size))
 			size = "";
 		ItemStack stack = this.createGlyph(size, level, loreChatColor);
 
 		NamespacedKey namespacedKey = new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph");
 		ShapelessRecipe recipe = new ShapelessRecipe(namespacedKey, stack);
-		recipe.addIngredient(Material.PAPER);
-		recipe.addIngredient(Material.INK_SAC);
+		if (includeBaseIngredients) {
+			recipe.addIngredient(Material.PAPER);
+			recipe.addIngredient(Material.INK_SAC);
+		}
 		Arrays.stream(ingredients).forEach(recipe::addIngredient);
 		return recipe;
 	}
