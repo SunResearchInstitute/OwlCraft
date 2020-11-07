@@ -121,7 +121,7 @@ public abstract class Spell {
 	public abstract @NotNull String getDescription();
 
 	/**
-	 * This is optional for spells not being implemented in OwlCraftServer code.
+	 * This is unnecessary for spells not being implemented in OwlCraftServer code.
 	 *
 	 * @return The coven the spell is part of.
 	 */
