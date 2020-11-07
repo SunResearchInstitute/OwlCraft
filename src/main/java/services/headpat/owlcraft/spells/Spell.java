@@ -171,7 +171,7 @@ public abstract class Spell {
 			recipe.addIngredient(Material.PAPER);
 			recipe.addIngredient(Material.INK_SAC);
 		}
-		Arrays.stream(ingredients).forEach(recipe::addIngredient);
+		Arrays.stream(ingredients).forEach(stack1 -> recipe.addIngredient(stack1.getAmount(), stack1));
 		return recipe;
 	}
 }
