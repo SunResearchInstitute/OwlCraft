@@ -29,6 +29,7 @@ public final class OwlCraft extends JavaPlugin {
 		instance = this;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onEnable() {
 		metrics = new Metrics(this, 9241);

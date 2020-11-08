@@ -28,7 +28,7 @@ public class MetricsListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	private void onSpellCastEvent(CraftItemEvent event) {
+	private void onCraftItemEvent(CraftItemEvent event) {
 		for (Spell spell : OwlCraft.getInstance().getSpellManager().getSpells()) {
 			List<Recipe> recipes = spell.getRecipes();
 			if (recipes != null) {
@@ -44,9 +44,8 @@ public class MetricsListener implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onSpellCastEvent(@NotNull SpellCastEvent event) {
-		incrementSpellOnMap(event.getSpell().getName(), spellsCasted);
+		this.incrementSpellOnMap(event.getSpell().getName(), spellsCasted);
 	}
-
 
 	private void incrementSpellOnMap(String spellName, @NotNull HashMap<String, Integer> map) {
 		if (map.containsKey(spellName))
