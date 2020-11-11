@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.Spell;
-import services.headpat.owlcraft.utils.Utils;
+import services.headpat.spigotextensions.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
