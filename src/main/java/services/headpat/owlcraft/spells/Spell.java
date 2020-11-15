@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
-import services.headpat.spigotextensions.Utils;
+import services.headpat.spigotextensions.utils.ChatUtils;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -144,7 +144,7 @@ public abstract class Spell {
 		ItemStack item = new ItemStack(Material.PAPER);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(ChatColor.AQUA + size + (!size.equals("") ? " " : "") + this.getName() + " Glyph");
-		meta.setLore(Utils.wrapLore(this.getDescription(), loreChatColor));
+		meta.setLore(ChatUtils.wrapLore(this.getDescription(), loreChatColor));
 		services.headpat.owlcraft.utils.Utils.addBaseFlags(meta);
 		meta.getPersistentDataContainer().set(Spell.SPELL_NAME_KEY, PersistentDataType.STRING, this.getName());
 		meta.getPersistentDataContainer().set(Spell.SPELL_LEVEL_KEY, PersistentDataType.INTEGER, level);

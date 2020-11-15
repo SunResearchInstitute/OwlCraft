@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import services.headpat.spigotextensions.utils.ChatUtils;
 
 public class Utils {
 	public static final PotionEffectType[] POSITIVE_EFFECTS = {
@@ -40,7 +41,7 @@ public class Utils {
 			if (!name.equals(""))
 				meta.setDisplayName(name);
 			if (!lore.equals(""))
-				meta.setLore(services.headpat.spigotextensions.Utils.wrapLore(lore));
+				meta.setLore(ChatUtils.wrapLore(lore));
 			stack.setItemMeta(meta);
 		}
 		return stack;
