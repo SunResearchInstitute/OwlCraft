@@ -35,7 +35,11 @@
 					<relocations>
 						<relocation>
 							<pattern>org.bstats</pattern>
-							<shadedPattern>services.headpat</shadedPattern>
+							<shadedPattern>services.headpat.libs.org.bstats</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>services.headpat.spigotextensions</pattern>
+							<shadedPattern>services.headpat.owlcraftserver.libs.services.headpat.spigotextensions</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
