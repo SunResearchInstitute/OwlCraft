@@ -50,7 +50,6 @@ public class FireballSpell extends Spell {
 		if (!(entity instanceof Player)) {
 			return false;
 		}
-		((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 10, 1, false, false, false));
 
 		Location location = entity.getLocation().add(0, 1.5, 0);
 		Vector direction = entity.getLocation().getDirection().normalize();
