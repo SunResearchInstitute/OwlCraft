@@ -39,7 +39,7 @@
 						</relocation>
 						<relocation>
 							<pattern>services.headpat.spigotextensions</pattern>
-							<shadedPattern>services.headpat.owlcraftserver.libs.services.headpat.spigotextensions</shadedPattern>
+							<shadedPattern>services.headpat.owlcraft.libs.services.headpat.spigotextensions</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
