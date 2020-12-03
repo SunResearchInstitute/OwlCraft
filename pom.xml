@@ -34,12 +34,21 @@
 				<configuration>
 					<relocations>
 						<relocation>
+							<pattern>org.intellij</pattern>
+							<shadedPattern>services.headpat.owlcraft.libs.org.intellij</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>org.jetbrains</pattern>
+							<shadedPattern>services.headpat.owlcraft.libs.org.jetbrains</shadedPattern>
+						</relocation>
+						<relocation>
 							<pattern>org.bstats</pattern>
-							<shadedPattern>services.headpat.libs.org.bstats</shadedPattern>
+							<shadedPattern>services.headpat.owlcraft.libs.org.bstats</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>services.headpat.spigotextensions</pattern>
-							<shadedPattern>services.headpat.owlcraft.libs.services.headpat.spigotextensions</shadedPattern>
+							<shadedPattern>services.headpat.owlcraft.libs.services.headpat.spigotextensions
+							</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>
@@ -129,6 +138,7 @@
 			<artifactId>annotations</artifactId>
 			<version>18.0.0</version>
 			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>
