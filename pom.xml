@@ -34,14 +34,6 @@
 				<configuration>
 					<relocations>
 						<relocation>
-							<pattern>org.intellij</pattern>
-							<shadedPattern>services.headpat.owlcraft.libs.org.intellij</shadedPattern>
-						</relocation>
-						<relocation>
-							<pattern>org.jetbrains</pattern>
-							<shadedPattern>services.headpat.owlcraft.libs.org.jetbrains</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>org.bstats</pattern>
 							<shadedPattern>services.headpat.owlcraft.libs.org.bstats</shadedPattern>
 						</relocation>
@@ -137,7 +129,7 @@
 			<groupId>org.jetbrains</groupId>
 			<artifactId>annotations</artifactId>
 			<version>18.0.0</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
