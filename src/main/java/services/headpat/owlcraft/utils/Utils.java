@@ -1,5 +1,6 @@
 package services.headpat.owlcraft.utils;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -9,6 +10,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import services.headpat.spigotextensions.utils.ChatUtils;
 
+@UtilityClass
 public class Utils {
 	public static final PotionEffectType[] POSITIVE_EFFECTS = {
 			PotionEffectType.ABSORPTION,
