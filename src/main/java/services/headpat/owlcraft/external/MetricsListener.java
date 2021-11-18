@@ -7,7 +7,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.Recipe;
-import org.jetbrains.annotations.NotNull;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.Spell;
 import services.headpat.owlcraft.spells.events.SpellCastEvent;
@@ -43,11 +42,11 @@ public class MetricsListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	private void onSpellCastEvent(@NotNull SpellCastEvent event) {
+	private void onSpellCastEvent(SpellCastEvent event) {
 		this.incrementSpellOnMap(event.getSpell().getName(), spellsCasted);
 	}
 
-	private void incrementSpellOnMap(String spellName, @NotNull HashMap<String, Integer> map) {
+	private void incrementSpellOnMap(String spellName, HashMap<String, Integer> map) {
 		if (map.containsKey(spellName))
 			map.put(spellName, map.get(spellName) + 1);
 		else

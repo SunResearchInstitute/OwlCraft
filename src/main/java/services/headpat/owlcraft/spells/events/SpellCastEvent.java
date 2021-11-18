@@ -6,8 +6,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import services.headpat.owlcraft.spells.Spell;
 
 public class SpellCastEvent extends SpellEvent implements Cancellable {
@@ -17,10 +15,9 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 	@Getter
 	@Setter
 	private int level;
-	@Nullable
 	private final ItemStack glyphStack;
 
-	public SpellCastEvent(Spell power, int level, @Nullable ItemStack glyphStack, Entity what) {
+	public SpellCastEvent(Spell power, int level, ItemStack glyphStack, Entity what) {
 		super(power, what);
 		this.level = level;
 		this.glyphStack = glyphStack;
@@ -41,7 +38,8 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 	}
 
 	@Override
-	public @NotNull HandlerList getHandlers() {
+	public
+	HandlerList getHandlers() {
 		return (handlers);
 	}
 }

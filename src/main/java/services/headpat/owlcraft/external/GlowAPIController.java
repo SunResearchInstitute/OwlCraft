@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.inventivetalent.glow.GlowAPI;
-import org.jetbrains.annotations.NotNull;
 import services.headpat.owlcraft.OwlCraft;
 
 import java.util.*;
@@ -57,7 +56,7 @@ public class GlowAPIController {
 		return (handle);
 	}
 
-	public void unsetGlowing(@NotNull ColorData handle) {
+	public void unsetGlowing(ColorData handle) {
 		if (!(handle.valid)) {
 			return;
 		}

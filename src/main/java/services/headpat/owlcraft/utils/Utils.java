@@ -6,8 +6,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import services.headpat.spigotextensions.utils.ChatUtils;
 
 @UtilityClass
@@ -31,13 +29,12 @@ public class Utils {
 			PotionEffectType.SPEED,
 	};
 
-	public static void addBaseFlags(@NotNull ItemMeta meta) {
+	public static void addBaseFlags(ItemMeta meta) {
 		meta.addEnchant(Enchantment.DURABILITY, 5, true);
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 	}
 
-	@Contract("_, _, _ -> param1")
-	public static @NotNull ItemStack appendNameAndLore(@NotNull ItemStack stack, String name, String lore) {
+	public static ItemStack appendNameAndLore(ItemStack stack, String name, String lore) {
 		if (stack.hasItemMeta()) {
 			ItemMeta meta = stack.getItemMeta();
 			if (!name.equals(""))

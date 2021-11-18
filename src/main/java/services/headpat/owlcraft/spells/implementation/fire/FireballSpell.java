@@ -8,12 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.Spell;
 import services.headpat.owlcraft.spells.SpellContext;
@@ -29,12 +25,12 @@ public class FireballSpell extends Spell {
 	}
 
 	@Override
-	public @NotNull String getName() {
+	public String getName() {
 		return "Fireball";
 	}
 
 	@Override
-	public @NotNull String getDescription() {
+	public String getDescription() {
 		return "Create a fiery explosion!";
 	}
 
@@ -46,7 +42,7 @@ public class FireballSpell extends Spell {
 	}
 
 	@Override
-	public boolean activateSpell(@NotNull Entity entity, int level, @Nullable ItemStack glyphStack) {
+	public boolean activateSpell(Entity entity, int level, ItemStack glyphStack) {
 		if (!(entity instanceof Player)) {
 			return false;
 		}

@@ -9,8 +9,6 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.Spell;
 import services.headpat.spigotextensions.utils.MiscUtils;
@@ -34,12 +32,12 @@ public class IceSpell extends Spell {
 	}
 
 	@Override
-	public @NotNull String getName() {
+	public String getName() {
 		return "Ice";
 	}
 
 	@Override
-	public @NotNull String getDescription() {
+	public String getDescription() {
 		return "Freeze enemies nearby.";
 	}
 
@@ -53,7 +51,7 @@ public class IceSpell extends Spell {
 	}
 
 	@Override
-	public boolean activateSpell(@NotNull Entity entity, int level, @Nullable ItemStack glyphStack) {
+	public boolean activateSpell(Entity entity, int level, ItemStack glyphStack) {
 		int ticks = MiscUtils.timeToTicks(0, 3) + (level * 20);
 
 		int targetCnt = 0;
