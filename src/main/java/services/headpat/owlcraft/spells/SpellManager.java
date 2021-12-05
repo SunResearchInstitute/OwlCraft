@@ -1,9 +1,9 @@
 package services.headpat.owlcraft.spells;
 
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +18,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellCastEvent;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
@@ -55,7 +54,7 @@ public class SpellManager implements Listener {
 		spell.spellManager = this;
 	}
 
-	public Spell get(@NotNull String spell) {
+	public Spell get(String spell) {
 		return (this.spells.get(spell));
 	}
 
@@ -209,7 +208,7 @@ public class SpellManager implements Listener {
 		if (!(this.isCapable(entity))) {
 			return (false);
 		}
-		if (this.isActive(spell, entity)) {
+		if (this.isActive(spell, entity) && !spell.ignoreIsActive()) {
 			return (false);
 		}
 
@@ -224,21 +223,21 @@ public class SpellManager implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	private void onSpellTargeting(@NotNull SpellTargetingEvent event) {
+	private void onSpellTargeting(SpellTargetingEvent event) {
 		EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getEntity(), event.getTarget(), EntityDamageEvent.DamageCause.ENTITY_ATTACK, 0.0);
 		Bukkit.getPluginManager().callEvent(damageEvent);
 		event.setCancelled(damageEvent.isCancelled());
 	}
 
 	@EventHandler
-	private void onEntityDeath(@NotNull EntityDeathEvent event) {
+	private void onEntityDeath(EntityDeathEvent event) {
 		for (Spell spell : this.getActiveSpells(event.getEntity()).keySet()) {
 			this.setInactive(spell, event.getEntity());
 		}
 	}
 
 	@EventHandler
-	private void onPlayerQuit(@NotNull PlayerQuitEvent event) {
+	private void onPlayerQuit(PlayerQuitEvent event) {
 		for (Spell spell : this.getActiveSpells(event.getPlayer()).keySet()) {
 			this.setInactive(spell, event.getPlayer());
 		}
@@ -248,7 +247,7 @@ public class SpellManager implements Listener {
 	Glyph Handler
 	*/
 	@EventHandler
-	private void onPlayerInteract(@NotNull PlayerInteractEvent event) {
+	private void onPlayerInteract(PlayerInteractEvent event) {
 		if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			if (event.getItem() != null && event.getItem().hasItemMeta()) {
 				if (event.getItem().getItemMeta().getPersistentDataContainer().has(Spell.SPELL_NAME_KEY, PersistentDataType.STRING)) {

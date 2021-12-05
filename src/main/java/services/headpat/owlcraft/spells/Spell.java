@@ -9,8 +9,6 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 import services.headpat.spigotextensions.utils.ChatUtils;
@@ -59,7 +57,7 @@ public abstract class Spell {
 	 * @param target The entity in question.
 	 * @return Whether or not the entity is blacklisted.
 	 */
-	public static boolean isBlacklisted(@NotNull Entity target) {
+	public static boolean isBlacklisted(Entity target) {
 		return ENTITY_BLACKLIST.contains(target.getType());
 	}
 
@@ -111,36 +109,40 @@ public abstract class Spell {
 	 *
 	 * @return The spell's name.
 	 */
-	public abstract @NotNull String getName();
+	public abstract String getName();
 
 	/**
 	 * Gets a brief description of how this spell works.
 	 *
 	 * @return The spell's description.
 	 */
-	public abstract @NotNull String getDescription();
+	public abstract String getDescription();
 
 	/**
 	 * This is unnecessary for spells not being implemented in OwlCraftServer code.
 	 *
 	 * @return The coven the spell is part of.
 	 */
-	public @NotNull String getCoven() {
+	public String getCoven() {
 		return "";
+	}
+
+	public boolean ignoreIsActive() {
+		return false;
 	}
 
 	/**
 	 * @return List of recipes to add when registered.
 	 */
-	public abstract @Nullable List<Recipe> getRecipes();
+	public abstract List<Recipe> getRecipes();
 
-	public abstract boolean activateSpell(@NotNull Entity entity, int level, @Nullable ItemStack glyphStack);
+	public abstract boolean activateSpell(Entity entity, int level, ItemStack glyphStack);
 
 	/**
 	 * Creates the glyph ItemStack, should not be called directly.
 	 * Use {@link #createGlyphRecipe(String, int, boolean, ChatColor, ItemStack...)}.
 	 */
-	protected ItemStack createGlyph(@NotNull String size, int level, ChatColor loreChatColor) {
+	protected ItemStack createGlyph(String size, int level, ChatColor loreChatColor) {
 		ItemStack item = new ItemStack(Material.PAPER);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(ChatColor.AQUA + size + (!size.equals("") ? " " : "") + this.getName() + " Glyph");
@@ -160,7 +162,7 @@ public abstract class Spell {
 	 * @param ingredients            Array of ingredients the glyph will use. Every glyph will always require one ink sac and one paper.
 	 * @return The glyph recipe with the appropriate metadata.
 	 */
-	protected ShapelessRecipe createGlyphRecipe(@Nullable String size, int level, boolean includeBaseIngredients, @NotNull ChatColor loreChatColor, @NotNull ItemStack... ingredients) {
+	protected ShapelessRecipe createGlyphRecipe(String size, int level, boolean includeBaseIngredients, ChatColor loreChatColor, ItemStack... ingredients) {
 		if (StringUtils.isBlank(size))
 			size = "";
 		ItemStack stack = this.createGlyph(size, level, loreChatColor);

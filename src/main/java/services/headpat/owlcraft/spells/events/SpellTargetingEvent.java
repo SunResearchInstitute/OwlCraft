@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 import services.headpat.owlcraft.spells.Spell;
 
 public class SpellTargetingEvent extends SpellEvent implements Cancellable {
@@ -29,7 +28,7 @@ public class SpellTargetingEvent extends SpellEvent implements Cancellable {
 	}
 
 	@Override
-	public @NotNull HandlerList getHandlers() {
+	public HandlerList getHandlers() {
 		return (handlers);
 	}
 }
