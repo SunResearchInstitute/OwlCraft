@@ -1,9 +1,9 @@
 package services.headpat.owlcraft.spells;
 
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.bukkit.craftbukkit.libs.org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
