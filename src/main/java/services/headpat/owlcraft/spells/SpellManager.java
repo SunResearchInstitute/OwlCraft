@@ -26,7 +26,6 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.BiPredicate;
 
-@SuppressWarnings("unused")
 public class SpellManager implements Listener {
 	private final Map<String, Spell> spells = new HashMap<>();
 
@@ -131,7 +130,6 @@ public class SpellManager implements Listener {
 		return (activeSpell.get(spell));
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T> SpellContext<T> getContext(Spell spell, Entity entity, Class<T> contextClass) {
 		return ((SpellContext<T>) this.getContext(spell, entity));
 	}

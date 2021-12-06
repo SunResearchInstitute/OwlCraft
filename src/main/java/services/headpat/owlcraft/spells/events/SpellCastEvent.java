@@ -38,8 +38,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
 	}
 
 	@Override
-	public
-	HandlerList getHandlers() {
+	public HandlerList getHandlers() {
 		return (handlers);
 	}
 }

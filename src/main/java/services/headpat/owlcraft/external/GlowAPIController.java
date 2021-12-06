@@ -20,9 +20,7 @@ public class GlowAPIController {
 			return;
 		}
 
-		this.activeEntities.forEach((entity, glowData) -> glowData.viewers.forEach((viewer, context) -> {
-			GlowAPI.setGlowing(entity, context.next(), viewer);
-		}));
+		this.activeEntities.forEach((entity, glowData) -> glowData.viewers.forEach((viewer, context) -> GlowAPI.setGlowing(entity, context.next(), viewer)));
 	}
 
 	public ColorData setGlowing(Entity entity, GlowAPI.Color color, Player viewer) {
