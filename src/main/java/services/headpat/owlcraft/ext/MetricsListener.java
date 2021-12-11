@@ -1,4 +1,4 @@
-package services.headpat.owlcraft.external;
+package services.headpat.owlcraft.ext;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
