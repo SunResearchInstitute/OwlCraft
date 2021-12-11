@@ -1,6 +1,7 @@
 package services.headpat.owlcraft.utils;
 
 import lombok.experimental.UtilityClass;
+import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -38,9 +39,9 @@ public class Utils {
 		if (stack.hasItemMeta()) {
 			ItemMeta meta = stack.getItemMeta();
 			if (!name.equals(""))
-				meta.setDisplayName(name);
+				meta.displayName(Component.text(name));
 			if (!lore.equals(""))
-				meta.setLore(ChatUtils.wrapLore(lore));
+				meta.lore(ChatUtils.createLore(lore));
 			stack.setItemMeta(meta);
 		}
 		return stack;

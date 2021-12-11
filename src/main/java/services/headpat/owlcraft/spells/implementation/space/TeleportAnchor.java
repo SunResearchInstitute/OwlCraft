@@ -1,7 +1,8 @@
 package services.headpat.owlcraft.spells.implementation.space;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeleportAnchor extends Spell {
-	ShapelessRecipe recipe;
-	private static final BaseComponent[] MESSAGE_SET = new ComponentBuilder().italic(true).color(net.md_5.bungee.api.ChatColor.RED).append("Teleport anchor set!").create();
-	private static final BaseComponent[] MESSAGE_UNSET = new ComponentBuilder().italic(true).color(net.md_5.bungee.api.ChatColor.RED).append("Teleport anchor's gone!").create();
+	private final ShapelessRecipe recipe;
+	private static final Component MESSAGE_SET = Component.text("Teleport anchor set!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
+	private static final Component MESSAGE_UNSET = Component.text("Teleport anchor's gone!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
 
 	public TeleportAnchor() {
-		recipe = this.createGlyphRecipe(null, 1, true, ChatColor.BLUE, new ItemStack(Material.DIAMOND, 1), new ItemStack(Material.ENDER_PEARL, 1));
+		recipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.BLUE, new ItemStack(Material.DIAMOND, 1), new ItemStack(Material.ENDER_PEARL, 1));
 	}
 
 	@Override

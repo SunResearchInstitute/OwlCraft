@@ -222,7 +222,7 @@ public class SpellManager implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	private void onSpellTargeting(SpellTargetingEvent event) {
-		EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getEntity(), event.getTarget(), EntityDamageEvent.DamageCause.ENTITY_ATTACK, 0.0);
+		EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getEntity(), event.getTarget(), EntityDamageEvent.DamageCause.ENTITY_ATTACK, Collections.emptyMap(), Collections.emptyMap(), false);
 		Bukkit.getPluginManager().callEvent(damageEvent);
 		event.setCancelled(damageEvent.isCancelled());
 	}

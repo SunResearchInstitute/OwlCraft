@@ -1,5 +1,6 @@
 package services.headpat.owlcraft.spells.implementation.fire;
 
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.mutable.MutableInt;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -21,7 +22,7 @@ public class FireballSpell extends Spell {
 	private final ShapelessRecipe glyphRecipe;
 
 	public FireballSpell() {
-		glyphRecipe = this.createGlyphRecipe(null, 1, true, ChatColor.DARK_PURPLE, new ItemStack(Material.TNT, 2));
+		glyphRecipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.DARK_PURPLE, new ItemStack(Material.TNT, 2));
 	}
 
 	@Override

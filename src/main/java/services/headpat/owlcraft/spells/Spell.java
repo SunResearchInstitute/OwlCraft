@@ -1,8 +1,14 @@
 package services.headpat.owlcraft.spells;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
@@ -55,7 +61,7 @@ public abstract class Spell {
 	 * Checks if an entity is blacklisted from being affected from powers by default.
 	 *
 	 * @param target The entity in question.
-	 * @return Whether or not the entity is blacklisted.
+	 * @return Whether the entity is blacklisted.
 	 */
 	public static boolean isBlacklisted(Entity target) {
 		return ENTITY_BLACKLIST.contains(target.getType());
@@ -67,7 +73,7 @@ public abstract class Spell {
 	 * @param what            The entity using the power.
 	 * @param target          The target entity.
 	 * @param ignoreBlacklist Whether to consult the entity blacklist or not.
-	 * @return Whether or not the entity is a suitable target.
+	 * @return Whether the entity is a suitable target.
 	 */
 	public boolean isTargetable(Entity what, Entity target, boolean ignoreBlacklist) {
 		if (!ignoreBlacklist && Spell.isBlacklisted(target)) {
@@ -98,7 +104,7 @@ public abstract class Spell {
 	 *
 	 * @param entity The entity using the power.
 	 * @param target The target entity.
-	 * @return Whether or not the entity is a suitable target.
+	 * @return Whether the entity is a suitable target.
 	 */
 	public boolean isTargetable(Entity entity, Entity target) {
 		return (this.isTargetable(entity, target, false));
@@ -140,13 +146,13 @@ public abstract class Spell {
 
 	/**
 	 * Creates the glyph ItemStack, should not be called directly.
-	 * Use {@link #createGlyphRecipe(String, int, boolean, ChatColor, ItemStack...)}.
+	 * Use {@link #createGlyphRecipe(String, int, boolean, TextColor, ItemStack...)}.
 	 */
-	protected ItemStack createGlyph(String size, int level, ChatColor loreChatColor) {
+	protected ItemStack createGlyph(String size, int level, TextColor loreChatColor) {
 		ItemStack item = new ItemStack(Material.PAPER);
 		ItemMeta meta = item.getItemMeta();
-		meta.setDisplayName(ChatColor.AQUA + size + (!size.equals("") ? " " : "") + this.getName() + " Glyph");
-		meta.setLore(ChatUtils.wrapLore(this.getDescription(), loreChatColor));
+		meta.displayName(Component.text(size + (!size.equals("") ? " " : "") + this.getName() + " Glyph").color(NamedTextColor.AQUA));
+		meta.lore(ChatUtils.createLore(this.getDescription(), loreChatColor));
 		services.headpat.owlcraft.utils.Utils.addBaseFlags(meta);
 		meta.getPersistentDataContainer().set(Spell.SPELL_NAME_KEY, PersistentDataType.STRING, this.getName());
 		meta.getPersistentDataContainer().set(Spell.SPELL_LEVEL_KEY, PersistentDataType.INTEGER, level);
@@ -162,7 +168,7 @@ public abstract class Spell {
 	 * @param ingredients            Array of ingredients the glyph will use. Every glyph will always require one ink sac and one paper.
 	 * @return The glyph recipe with the appropriate metadata.
 	 */
-	protected ShapelessRecipe createGlyphRecipe(String size, int level, boolean includeBaseIngredients, ChatColor loreChatColor, ItemStack... ingredients) {
+	protected ShapelessRecipe createGlyphRecipe(String size, int level, boolean includeBaseIngredients, TextColor loreChatColor, ItemStack... ingredients) {
 		if (StringUtils.isBlank(size))
 			size = "";
 		ItemStack stack = this.createGlyph(size, level, loreChatColor);
