@@ -100,7 +100,7 @@
 		<dependency>
 			<groupId>io.papermc.paper</groupId>
 			<artifactId>paper-api</artifactId>
-			<version>1.18-R0.1-SNAPSHOT</version>
+			<version>1.18.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -122,10 +122,9 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.InventivetalentDev</groupId>
+			<groupId>com.github.metalshark</groupId>
 			<artifactId>GlowAPI</artifactId>
-			<version>1.5.1-SNAPSHOT</version>
-			<scope>provided</scope>
+			<version>2.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
