@@ -8,12 +8,12 @@ import java.util.Set;
 
 public class SpellContext<T> {
 	@Getter
-	protected T context;
+	protected final T context;
 
 	@Getter
-	protected Set<Entity> targets = new HashSet<>();
+	protected final Set<Entity> targets = new HashSet<>();
 
-	protected Runnable cleanup;
+	protected final Runnable cleanup;
 
 	public SpellContext(T context, Runnable cleanup) {
 		this.context = context;
