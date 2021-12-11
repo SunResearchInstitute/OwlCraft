@@ -5,6 +5,3 @@ main: services.headpat.owlcraft.OwlCraft
 api-version: "1.18"
 description: OwlCraft Plugin
 authors: [ "SunTheCourier", "SunResearchInstitute" ]
-
-depend:
-  - "GlowAPI"

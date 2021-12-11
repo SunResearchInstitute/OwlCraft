@@ -4,8 +4,7 @@ import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bukkit.plugin.java.JavaPlugin;
-import services.headpat.owlcraft.apis.GlowAPIController;
-import services.headpat.owlcraft.apis.MetricsListener;
+import services.headpat.owlcraft.metrics.MetricsListener;
 import services.headpat.owlcraft.spells.SpellManager;
 import services.headpat.owlcraft.spells.implementation.fire.FireballSpell;
 import services.headpat.owlcraft.spells.implementation.ice.IceSpell;
@@ -18,8 +17,6 @@ public final class OwlCraft extends JavaPlugin {
 	private static OwlCraft instance;
 	@Getter
 	private SpellManager spellManager;
-	@Getter
-	private GlowAPIController glowAPIController;
 	@Getter
 	private Metrics metrics;
 	@Getter
@@ -46,7 +43,6 @@ public final class OwlCraft extends JavaPlugin {
 			return map;
 		}));
 		spellManager = new SpellManager();
-		glowAPIController = new GlowAPIController();
 		loadSpells(spellManager);
 	}
 

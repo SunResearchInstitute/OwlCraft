@@ -1,4 +1,4 @@
-package services.headpat.owlcraft.apis;
+package services.headpat.owlcraft.metrics;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
