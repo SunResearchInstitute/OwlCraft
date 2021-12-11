@@ -1,4 +1,4 @@
-package services.headpat.owlcraft.ext;
+package services.headpat.owlcraft.apis;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
