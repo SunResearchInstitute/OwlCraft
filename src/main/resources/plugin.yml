@@ -3,7 +3,7 @@ version: ${project.version}
 main: services.headpat.owlcraft.OwlCraft
 api-version: "1.18"
 description: OwlCraft Plugin
-authors: [ SunTheCourier, HeadpatServices ]
+authors: [ SunTheCourier, SunResearchInstitute ]
 
 depend:
   - "GlowAPI"
