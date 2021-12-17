@@ -31,7 +31,7 @@ public abstract class Spell {
 	 * List of entities you cannot target, should not be used directly.
 	 * Use {@link #isTargetable}.
 	 */
-	private static final Set<EntityType> ENTITY_BLACKLIST = new HashSet<>();
+	protected static final Set<EntityType> ENTITY_BLACKLIST = new HashSet<>();
 
 	static {
 		ENTITY_BLACKLIST.add(EntityType.AREA_EFFECT_CLOUD);
@@ -55,7 +55,7 @@ public abstract class Spell {
 	 * SpellManager instance.
 	 */
 	@Getter
-	public SpellManager spellManager = null;
+	protected SpellManager spellManager = null;
 
 	/**
 	 * Checks if an entity is blacklisted from being affected from powers by default.
@@ -63,7 +63,7 @@ public abstract class Spell {
 	 * @param target The entity in question.
 	 * @return Whether the entity is blacklisted.
 	 */
-	public static boolean isBlacklisted(Entity target) {
+	protected static boolean isBlacklisted(Entity target) {
 		return ENTITY_BLACKLIST.contains(target.getType());
 	}
 
@@ -75,7 +75,7 @@ public abstract class Spell {
 	 * @param ignoreBlacklist Whether to consult the entity blacklist or not.
 	 * @return Whether the entity is a suitable target.
 	 */
-	public boolean isTargetable(Entity what, Entity target, boolean ignoreBlacklist) {
+	protected boolean isTargetable(Entity what, Entity target, boolean ignoreBlacklist) {
 		if (!ignoreBlacklist && Spell.isBlacklisted(target)) {
 			return (false);
 		}
@@ -106,7 +106,7 @@ public abstract class Spell {
 	 * @param target The target entity.
 	 * @return Whether the entity is a suitable target.
 	 */
-	public boolean isTargetable(Entity entity, Entity target) {
+	protected boolean isTargetable(Entity entity, Entity target) {
 		return (this.isTargetable(entity, target, false));
 	}
 
@@ -130,7 +130,7 @@ public abstract class Spell {
 	 * @return The coven the spell is part of.
 	 */
 	public String getCoven() {
-		return "";
+		return "Covenless";
 	}
 
 	public boolean ignoreIsActive() {
@@ -145,7 +145,7 @@ public abstract class Spell {
 	public abstract boolean activateSpell(Entity entity, int level, ItemStack glyphStack);
 
 	/**
-	 * Creates the glyph ItemStack, should not be called directly.
+	 * Creates the glyph ItemStack, should not be called directly in most cases.
 	 * Use {@link #createGlyphRecipe(String, int, boolean, TextColor, ItemStack...)}.
 	 */
 	protected ItemStack createGlyph(String size, int level, TextColor loreChatColor) {
@@ -172,14 +172,21 @@ public abstract class Spell {
 		if (StringUtils.isBlank(size))
 			size = "";
 		ItemStack stack = this.createGlyph(size, level, loreChatColor);
-
-		NamespacedKey namespacedKey = new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph");
-		ShapelessRecipe recipe = new ShapelessRecipe(namespacedKey, stack);
+		ShapelessRecipe recipe = new ShapelessRecipe(createKey(size, level), stack);
 		if (includeBaseIngredients) {
 			recipe.addIngredient(Material.PAPER);
 			recipe.addIngredient(Material.INK_SAC);
 		}
 		Arrays.stream(ingredients).forEach(recipe::addIngredient);
 		return recipe;
+	}
+
+	/**
+	 * Creates the glyph NamespacedKey, should not be called directly in most cases.
+	 * Use {@link #createGlyphRecipe(String, int, boolean, TextColor, ItemStack...)}.
+	 */
+	protected NamespacedKey createKey(String size, int level)
+	{
+		return new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph");
 	}
 }
