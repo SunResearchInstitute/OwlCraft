@@ -59,7 +59,7 @@ public class TeleportAnchor extends Spell {
             SpellContext<Location> ctx = this.spellManager.getContext(this, entity, Location.class);
             Location newLoc = ctx.getContext();
             Location oldLoc = entity.getLocation();
-            if (oldLoc.distance(newLoc) >= 55) {
+            if (oldLoc.distanceSquared(newLoc) >= (55 * 55)) {
                 entity.teleport(newLoc);
                 newLoc.setDirection(oldLoc.getDirection());
 
