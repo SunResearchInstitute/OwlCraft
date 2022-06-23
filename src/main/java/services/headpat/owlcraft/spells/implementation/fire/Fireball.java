@@ -18,10 +18,10 @@ import services.headpat.owlcraft.spells.SpellContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FireballSpell extends Spell {
+public class Fireball extends Spell {
     private final ShapelessRecipe glyphRecipe;
 
-    public FireballSpell() {
+    public Fireball() {
         glyphRecipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.DARK_PURPLE, new ItemStack(Material.TNT, 2));
     }
 

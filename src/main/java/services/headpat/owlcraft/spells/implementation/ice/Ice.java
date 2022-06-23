@@ -17,12 +17,12 @@ import services.headpat.spigotextensions.utils.MiscUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IceSpell extends Spell {
+public class Ice extends Spell {
     private final ShapelessRecipe smallGlyphRecipe;
     private final ShapelessRecipe mediumGlyphRecipe;
     private final ShapelessRecipe largeGlyphRecipe;
 
-    public IceSpell() {
+    public Ice() {
         smallGlyphRecipe = this.createGlyphRecipe("Small", 1, true, NamedTextColor.DARK_PURPLE, new ItemStack(Material.SNOW_BLOCK, 2));
         ItemStack medium = smallGlyphRecipe.getResult();
         medium.setAmount(4);
