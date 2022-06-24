@@ -21,8 +21,6 @@ public class TeleportAnchor extends Spell {
     private final ShapelessRecipe recipe;
     private static final Component MESSAGE_SET = Component.text("Teleport anchor set!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
     private static final Component MESSAGE_UNSET = Component.text("Teleport anchor's gone!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
-    private static final Component MESSAGE_OUT_OF_RANGE = Component.text("Teleport anchor's too far!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
-
     public TeleportAnchor() {
         recipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.BLUE, new ItemStack(Material.DIAMOND, 1), new ItemStack(Material.ENDER_PEARL, 1));
     }
@@ -59,22 +57,17 @@ public class TeleportAnchor extends Spell {
             SpellContext<Location> ctx = this.spellManager.getContext(this, entity, Location.class);
             Location newLoc = ctx.getContext();
             Location oldLoc = entity.getLocation();
-            if (oldLoc.distanceSquared(newLoc) >= (55 * 55)) {
-                entity.teleport(newLoc);
-                newLoc.setDirection(oldLoc.getDirection());
+            entity.teleport(newLoc);
+            newLoc.setDirection(oldLoc.getDirection());
 
-                oldLoc.getWorld().spawnParticle(Particle.REVERSE_PORTAL, oldLoc, 35, 0.2, 0.2, 0.2);
-                oldLoc.getWorld().playSound(oldLoc, Sound.ENTITY_ENDERMAN_TELEPORT, 20, 1.2f);
-                newLoc.getWorld().spawnParticle(Particle.PORTAL, newLoc, 35, 0.2, 0.2, 0.2);
-                newLoc.getWorld().playSound(newLoc, Sound.ENTITY_ENDERMAN_TELEPORT, 20, 1.8f);
-                if (glyphStack.getAmount() == 1) {
-                    this.spellManager.setInactive(this, entity, true);
-                }
-                return true;
-            } else {
-                entity.sendMessage(MESSAGE_OUT_OF_RANGE);
-                return false;
+            oldLoc.getWorld().spawnParticle(Particle.REVERSE_PORTAL, oldLoc, 35, 0.2, 0.2, 0.2);
+            oldLoc.getWorld().playSound(oldLoc, Sound.ENTITY_ENDERMAN_TELEPORT, 20, 1.2f);
+            newLoc.getWorld().spawnParticle(Particle.PORTAL, newLoc, 35, 0.2, 0.2, 0.2);
+            newLoc.getWorld().playSound(newLoc, Sound.ENTITY_ENDERMAN_TELEPORT, 20, 1.8f);
+            if (glyphStack.getAmount() == 1) {
+                this.spellManager.setInactive(this, entity, true);
             }
+            return true;
         } else {
             Location loc = entity.getLocation().clone();
             loc.getWorld().playSound(loc, Sound.BLOCK_ENDER_CHEST_OPEN, 20, 1.2f);
