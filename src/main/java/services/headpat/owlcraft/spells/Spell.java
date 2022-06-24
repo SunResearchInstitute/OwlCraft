@@ -21,10 +21,7 @@ import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 import services.headpat.spigotextensions.utils.ChatUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Spell {
     public static final NamespacedKey SPELL_NAME_KEY = new NamespacedKey(OwlCraft.getInstance(), "spell_name");
@@ -142,7 +139,9 @@ public abstract class Spell {
     /**
      * @return List of recipes to add when registered.
      */
-    public abstract List<Recipe> getRecipes();
+    public List<Recipe> getRecipes() {
+        return Collections.emptyList();
+    }
 
     public abstract boolean activateSpell(Entity entity, int level, ItemStack glyphStack);
 
