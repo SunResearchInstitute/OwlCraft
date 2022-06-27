@@ -216,9 +216,10 @@ public class SpellManager implements Listener {
         return spell.activateSpell(entity, level, stack);
     }
 
+    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onSpellTargeting(SpellTargetingEvent event) {
-        EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getEntity(), event.getTarget(), EntityDamageEvent.DamageCause.ENTITY_ATTACK, Collections.emptyMap(), Collections.emptyMap(), false);
+        EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getEntity(), event.getTarget(), EntityDamageEvent.DamageCause.ENTITY_ATTACK, 5d);
         Bukkit.getPluginManager().callEvent(damageEvent);
         event.setCancelled(damageEvent.isCancelled());
     }
