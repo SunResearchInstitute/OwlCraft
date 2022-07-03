@@ -36,8 +36,8 @@ public class Fireball extends Spell {
     }
 
     @Override
-    public List<Recipe> getRecipes() {
-        ArrayList<Recipe> recipes = new ArrayList<>();
+    public List<ShapelessRecipe> getGlyphRecipes() {
+        ArrayList<ShapelessRecipe> recipes = new ArrayList<>();
         recipes.add(glyphRecipe);
         return recipes;
     }

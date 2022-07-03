@@ -2,6 +2,16 @@ name: "OwlCraft"
 version: ${project.version}
 main: services.headpat.owlcraft.OwlCraft
 
-api-version: "1.18"
+api-version: "1.19"
 description: OwlCraft Plugin
 authors: [ "SunTheCourier", "SunResearchInstitute" ]
+
+commands:
+  giveglyph:
+    description: "Gives you the specified glyph"
+    permission: owlcraft.commands.giveglyph
+
+permissions:
+  owlcraft.commands.giveglyph:
+    description: "Allows you to create glyphs from command"
+    default: false

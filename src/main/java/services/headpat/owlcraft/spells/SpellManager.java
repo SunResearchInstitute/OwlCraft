@@ -16,18 +16,18 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.persistence.PersistentDataType;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellCastEvent;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.BiPredicate;
 
 public class SpellManager implements Listener {
     private final Map<String, Spell> spells = new HashMap<>();
+    private final Map<String, ShapelessRecipe> glyphs = new HashMap<>();
 
     private final Map<Entity, Map<Spell, SpellContext<?>>> activeSpells = new HashMap<>();
     private final Map<Spell, Map<Entity, SpellContext<?>>> activeUsers = new HashMap<>();
@@ -46,19 +46,29 @@ public class SpellManager implements Listener {
         if (spell instanceof Listener) {
             Bukkit.getPluginManager().registerEvents((Listener) spell, OwlCraft.getInstance());
         }
-        List<Recipe> recipes = spell.getRecipes();
+        List<ShapelessRecipe> recipes = spell.getGlyphRecipes();
         if (recipes != null)
             recipes.forEach(Bukkit::addRecipe);
         this.spells.put(spell.getName(), spell);
+        spell.getGlyphRecipes().forEach(recipe -> glyphs.put(recipe.getKey().getNamespace(), recipe));
         spell.spellManager = this;
     }
 
-    public Spell get(String spell) {
-        return (this.spells.get(spell));
+    public Spell getSpell(String spell) {
+        return this.spells.get(spell);
     }
+
+    public ShapelessRecipe getGlyph(String glyph) {
+        return this.glyphs.get(glyph);
+    }
+
 
     public Collection<Spell> getSpells() {
         return (Collections.unmodifiableCollection(this.spells.values()));
+    }
+
+    public Collection<ShapelessRecipe> getGlyphs() {
+        return (Collections.unmodifiableCollection(this.glyphs.values()));
     }
 
     public boolean isCapable(Entity entity) {
@@ -117,8 +127,7 @@ public class SpellManager implements Listener {
         }
     }
 
-    public @Nullable
-    SpellContext<?> getContext(Spell spell, Entity entity) {
+    public SpellContext<?> getContext(Spell spell, Entity entity) {
         Map<Spell, SpellContext<?>> activeSpell = this.activeSpells.get(entity);
         if (activeSpell == null) {
             return (null);
@@ -250,7 +259,7 @@ public class SpellManager implements Listener {
                     Integer level = event.getItem().getItemMeta().getPersistentDataContainer().get(Spell.SPELL_LEVEL_KEY, PersistentDataType.INTEGER);
                     assert spell != null;
                     assert level != null;
-                    if (this.activateGlyph(this.get(spell), event.getPlayer(), level, event.getItem()))
+                    if (this.activateGlyph(this.getSpell(spell), event.getPlayer(), level, event.getItem()))
                         event.getItem().setAmount(event.getItem().getAmount() - 1);
                 }
             }

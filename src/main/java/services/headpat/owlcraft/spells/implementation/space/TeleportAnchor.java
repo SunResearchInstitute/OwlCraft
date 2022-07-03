@@ -7,7 +7,6 @@ import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.scheduler.BukkitTask;
 import services.headpat.owlcraft.OwlCraft;
@@ -21,6 +20,7 @@ public class TeleportAnchor extends Spell {
     private final ShapelessRecipe recipe;
     private static final Component MESSAGE_SET = Component.text("Teleport anchor set!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
     private static final Component MESSAGE_UNSET = Component.text("Teleport anchor's gone!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
+
     public TeleportAnchor() {
         recipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.BLUE, new ItemStack(Material.DIAMOND, 1), new ItemStack(Material.ENDER_PEARL, 1));
     }
@@ -36,8 +36,8 @@ public class TeleportAnchor extends Spell {
     }
 
     @Override
-    public List<Recipe> getRecipes() {
-        ArrayList<Recipe> recipes = new ArrayList<>();
+    public List<ShapelessRecipe> getGlyphRecipes() {
+        ArrayList<ShapelessRecipe> recipes = new ArrayList<>();
         recipes.add(recipe);
         return recipes;
     }

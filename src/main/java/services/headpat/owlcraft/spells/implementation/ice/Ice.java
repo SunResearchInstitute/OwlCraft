@@ -5,7 +5,6 @@ import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -43,8 +42,8 @@ public class Ice extends Spell {
     }
 
     @Override
-    public List<Recipe> getRecipes() {
-        ArrayList<Recipe> recipes = new ArrayList<>();
+    public List<ShapelessRecipe> getGlyphRecipes() {
+        ArrayList<ShapelessRecipe> recipes = new ArrayList<>();
         recipes.add(smallGlyphRecipe);
         recipes.add(mediumGlyphRecipe);
         recipes.add(largeGlyphRecipe);

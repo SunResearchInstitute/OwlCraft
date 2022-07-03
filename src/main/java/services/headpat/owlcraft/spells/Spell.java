@@ -13,10 +13,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 import services.headpat.spigotextensions.utils.ChatUtils;
@@ -139,7 +139,7 @@ public abstract class Spell {
     /**
      * @return List of recipes to add when registered.
      */
-    public List<Recipe> getRecipes() {
+    public List<ShapelessRecipe> getGlyphRecipes() {
         return Collections.emptyList();
     }
 
