@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import services.headpat.owlcraft.OwlCraft;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class GlyphArgumentType implements ArgumentType<ShapelessRecipe> {
     public static GlyphArgumentType glyph() {
@@ -33,7 +32,7 @@ public class GlyphArgumentType implements ArgumentType<ShapelessRecipe> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        OwlCraft.getInstance().getSpellManager().getGlyphs().stream().map(shapelessRecipe -> shapelessRecipe.getKey().getNamespace()).toList().forEach(s -> {
+        OwlCraft.getInstance().getSpellManager().getGlyphs().stream().map(shapelessRecipe -> shapelessRecipe.getKey().getKey()).toList().forEach(s -> {
             if (s.toLowerCase().startsWith(builder.getRemaining().toLowerCase()))
                 builder.suggest(s);
         });

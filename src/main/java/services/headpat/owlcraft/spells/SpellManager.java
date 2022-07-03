@@ -50,7 +50,7 @@ public class SpellManager implements Listener {
         if (recipes != null)
             recipes.forEach(Bukkit::addRecipe);
         this.spells.put(spell.getName(), spell);
-        spell.getGlyphRecipes().forEach(recipe -> glyphs.put(recipe.getKey().getNamespace(), recipe));
+        spell.getGlyphRecipes().forEach(recipe -> glyphs.put(recipe.getKey().getKey(), recipe));
         spell.spellManager = this;
     }
 
