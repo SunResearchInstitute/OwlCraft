@@ -28,7 +28,7 @@ public class Ice extends Spell {
         mediumGlyphRecipe = this.createGlyphRecipe("Medium", 2, false, NamedTextColor.DARK_PURPLE, medium);
         ItemStack large = mediumGlyphRecipe.getResult();
         large.setAmount(4);
-        largeGlyphRecipe = this.createGlyphRecipe("Large", 2, false, NamedTextColor.DARK_PURPLE, large);
+        largeGlyphRecipe = this.createGlyphRecipe("Large", 3, false, NamedTextColor.DARK_PURPLE, large);
     }
 
     @Override
