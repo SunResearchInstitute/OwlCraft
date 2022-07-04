@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 import services.headpat.spigotextensions.utils.ChatUtils;
@@ -123,15 +122,6 @@ public abstract class Spell {
      */
     public abstract String getDescription();
 
-    /**
-     * This is unnecessary for spells not being implemented in OwlCraftServer code.
-     *
-     * @return The coven the spell is part of.
-     */
-    public String getCoven() {
-        return "Covenless";
-    }
-
     public boolean ignoreIsActive() {
         return false;
     }
@@ -146,23 +136,6 @@ public abstract class Spell {
     public abstract boolean activateSpell(Entity entity, int level, ItemStack glyphStack);
 
     /**
-     * Creates the glyph ItemStack, should not be called directly in most cases.
-     * Use {@link #createGlyphRecipe(String, int, boolean, TextColor, ItemStack...)}.
-     */
-    protected ItemStack createGlyph(String size, int level, TextColor loreChatColor) {
-        ItemStack item = new ItemStack(Material.PAPER);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text(size + (!size.equals("") ? " " : "") + this.getName() + " Glyph").color(NamedTextColor.AQUA));
-        meta.lore(ChatUtils.createLore(this.getDescription(), loreChatColor));
-        meta.addEnchant(Enchantment.DURABILITY, 5, true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
-        meta.getPersistentDataContainer().set(Spell.SPELL_NAME_KEY, PersistentDataType.STRING, this.getName());
-        meta.getPersistentDataContainer().set(Spell.SPELL_LEVEL_KEY, PersistentDataType.INTEGER, level);
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    /**
      * @param size                   Prefixes the glyph name. This is usually Small, Medium, or Large. This call also be an empty or null string if there should be no sizes.
      * @param level                  The level or magnitude of the glyph. This should usually correspond to the size.
      * @param includeBaseIngredients Whether to include the base ingredients (paper and an ink sac).
@@ -171,23 +144,38 @@ public abstract class Spell {
      * @return The glyph recipe with the appropriate metadata.
      */
     protected ShapelessRecipe createGlyphRecipe(String size, int level, boolean includeBaseIngredients, TextColor loreChatColor, ItemStack... ingredients) {
+        return createGlyphRecipe(size, level, includeBaseIngredients, true, loreChatColor, ingredients);
+    }
+
+    /**
+     * @param size                   Prefixes the glyph name. This is usually Small, Medium, or Large. This call also be an empty or null string if there should be no sizes.
+     * @param level                  The level or magnitude of the glyph. This should usually correspond to the size.
+     * @param includeBaseIngredients Whether to include the base ingredients (paper and an ink sac).
+     * @param includeGlyphInName     Whether to include "glyph" in the name.
+     * @param loreChatColor          Color of the lore.
+     * @param ingredients            Array of ingredients the glyph will use. Every glyph will always require one ink sac and one paper.
+     * @return The glyph recipe with the appropriate metadata.
+     */
+    protected ShapelessRecipe createGlyphRecipe(String size, int level, boolean includeBaseIngredients, boolean includeGlyphInName, TextColor loreChatColor, ItemStack... ingredients) {
         if (StringUtils.isBlank(size))
             size = "";
-        ItemStack stack = this.createGlyph(size, level, loreChatColor);
-        ShapelessRecipe recipe = new ShapelessRecipe(createKey(size, level), stack);
+
+        ItemStack stack = new ItemStack(Material.PAPER);
+        ItemMeta meta = stack.getItemMeta();
+        meta.displayName(Component.text(size + (!size.equals("") ? " " : "") + this.getName() + " Glyph").color(NamedTextColor.AQUA));
+        meta.lore(ChatUtils.createLore(this.getDescription(), loreChatColor));
+        meta.addEnchant(Enchantment.DURABILITY, 5, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        meta.getPersistentDataContainer().set(Spell.SPELL_NAME_KEY, PersistentDataType.STRING, this.getName());
+        meta.getPersistentDataContainer().set(Spell.SPELL_LEVEL_KEY, PersistentDataType.INTEGER, level);
+        stack.setItemMeta(meta);
+
+        ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph"), stack);
         if (includeBaseIngredients) {
             recipe.addIngredient(Material.PAPER);
             recipe.addIngredient(Material.INK_SAC);
         }
         Arrays.stream(ingredients).forEach(recipe::addIngredient);
         return recipe;
-    }
-
-    /**
-     * Creates the glyph NamespacedKey, should not be called directly in most cases.
-     * Use {@link #createGlyphRecipe(String, int, boolean, TextColor, ItemStack...)}.
-     */
-    protected NamespacedKey createKey(String size, int level) {
-        return new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph");
     }
 }
