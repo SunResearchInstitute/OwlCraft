@@ -3,6 +3,8 @@ package services.headpat.owlcraft.commands.glyphs;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,7 +14,6 @@ import services.headpat.owlcraft.commands.glyphs.arguments.GlyphArgumentType;
 import services.headpat.spigotextensions.brigadier.BrigadierExecutor;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
 import static services.headpat.owlcraft.commands.glyphs.arguments.GlyphArgumentType.getGlyph;
@@ -27,13 +28,20 @@ public class GiveGlyphCommand extends BrigadierExecutor {
                                 .executes(ctx -> {
                                     Player player = getPlayer(ctx, "player");
                                     ItemStack glyphItem = getGlyph(ctx, "glyph").getResult().clone();
+                                    glyphItem.setAmount(64);
                                     player.getInventory().addItem(glyphItem);
+                                    ctx.getSource().sendMessage(
+                                            Component.text("Giving ").color(NamedTextColor.GOLD)
+                                                    .append(Component.text("64 ").color(NamedTextColor.RED))
+                                                    .append(Component.text("of ").color(NamedTextColor.GOLD))
+                                                    .append(glyphItem.displayName().color(NamedTextColor.RED))
+                                                    .append(Component.text(" to ").color(NamedTextColor.GOLD))
+                                                    .append(player.displayName()));
                                     return 1;
                                 })
                                 .then(RequiredArgumentBuilder.<CommandSender, Integer>argument("amount", IntegerArgumentType.integer(1, 64))
                                         .suggests((commandContext, builder) -> {
-                                            List<String> nums = Arrays.asList("1", "64");
-                                            nums.forEach(s ->
+                                            Arrays.asList("1", "64").forEach(s ->
                                             {
                                                 if (s.toLowerCase().startsWith(builder.getRemaining().toLowerCase()))
                                                     builder.suggest(s);
@@ -46,6 +54,13 @@ public class GiveGlyphCommand extends BrigadierExecutor {
                                             int amt = getInteger(ctx, "amount");
                                             glyphItem.setAmount(amt);
                                             player.getInventory().addItem(glyphItem);
+                                            ctx.getSource().sendMessage(
+                                                    Component.text("Giving ").color(NamedTextColor.GOLD)
+                                                            .append(Component.text(glyphItem.getAmount()).color(NamedTextColor.RED))
+                                                            .append(Component.text(" of ").color(NamedTextColor.GOLD))
+                                                            .append(glyphItem.displayName().color(NamedTextColor.RED))
+                                                            .append(Component.text(" to ").color(NamedTextColor.GOLD))
+                                                            .append(player.displayName()));
                                             return 1;
                                         })
                                 )

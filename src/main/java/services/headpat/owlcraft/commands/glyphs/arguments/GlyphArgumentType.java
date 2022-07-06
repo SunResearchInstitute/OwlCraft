@@ -10,6 +10,9 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.jetbrains.annotations.NotNull;
 import services.headpat.owlcraft.OwlCraft;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class GlyphArgumentType implements ArgumentType<ShapelessRecipe> {
@@ -23,7 +26,16 @@ public class GlyphArgumentType implements ArgumentType<ShapelessRecipe> {
 
     @Override
     public ShapelessRecipe parse(StringReader stringReader) throws CommandSyntaxException {
-        ShapelessRecipe glyph = OwlCraft.getInstance().getSpellManager().getGlyph(stringReader.readUnquotedString());
+        String str = stringReader.readUnquotedString();
+        ShapelessRecipe glyph;
+        if (str.equals("random")) {
+            Collection<ShapelessRecipe> glyphs = OwlCraft.getInstance().getSpellManager().getGlyphs();
+            int index = (int) (Math.random() * glyphs.size());
+            glyph = glyphs.stream().toList().get(index);
+        } else {
+            glyph = OwlCraft.getInstance().getSpellManager().getGlyph(str);
+        }
+
         if (glyph == null) {
             throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException().create("Glyph not found.");
         }
@@ -32,7 +44,10 @@ public class GlyphArgumentType implements ArgumentType<ShapelessRecipe> {
 
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        OwlCraft.getInstance().getSpellManager().getGlyphs().stream().map(shapelessRecipe -> shapelessRecipe.getKey().getKey()).toList().forEach(s -> {
+        List<String> glyphs = new ArrayList<>(OwlCraft.getInstance().getSpellManager().getGlyphs().stream().map(shapelessRecipe -> shapelessRecipe.getKey().getKey()).toList());
+        glyphs.add("random");
+
+        glyphs.forEach(s -> {
             if (s.toLowerCase().startsWith(builder.getRemaining().toLowerCase()))
                 builder.suggest(s);
         });
