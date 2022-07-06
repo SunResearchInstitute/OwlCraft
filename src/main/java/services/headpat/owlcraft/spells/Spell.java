@@ -66,14 +66,14 @@ public abstract class Spell {
     }
 
     /**
-     * Checks if an entity is a suitable target for a power.
+     * Checks if an entity is a suitable target for a spell.
      *
-     * @param what            The entity using the power.
+     * @param what            The player using the spell.
      * @param target          The target entity.
      * @param ignoreBlacklist Whether to consult the entity blacklist or not.
      * @return Whether the entity is a suitable target.
      */
-    protected boolean isTargetable(Entity what, Entity target, boolean ignoreBlacklist) {
+    protected boolean isTargetable(Player what, Entity target, boolean ignoreBlacklist) {
         if (!ignoreBlacklist && Spell.isBlacklisted(target)) {
             return (false);
         }
@@ -98,14 +98,14 @@ public abstract class Spell {
     }
 
     /**
-     * Checks if an entity is a suitable target for a power.
+     * Checks if an player is a suitable target for a power.
      *
-     * @param entity The entity using the power.
-     * @param target The target entity.
-     * @return Whether the entity is a suitable target.
+     * @param player The player using the spell.
+     * @param target The target player.
+     * @return Whether the player is a suitable target.
      */
-    protected boolean isTargetable(Entity entity, Entity target) {
-        return (this.isTargetable(entity, target, false));
+    protected boolean isTargetable(Player player, Entity target) {
+        return (this.isTargetable(player, target, false));
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class Spell {
         return Collections.emptyList();
     }
 
-    public abstract boolean activateSpell(Entity entity, int level, ItemStack glyphStack);
+    public abstract boolean activateSpell(Player player, int level, ItemStack glyphStack);
 
     /**
      * @param size                   Prefixes the glyph name. This is usually Small, Medium, or Large. This call also be an empty or null string if there should be no sizes.

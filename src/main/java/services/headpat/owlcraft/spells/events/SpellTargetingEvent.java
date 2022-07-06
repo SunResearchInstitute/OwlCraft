@@ -3,6 +3,7 @@ package services.headpat.owlcraft.spells.events;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import services.headpat.owlcraft.spells.Spell;
@@ -15,7 +16,7 @@ public class SpellTargetingEvent extends SpellEvent implements Cancellable {
     @Getter
     protected final Entity target;
 
-    public SpellTargetingEvent(Spell spell, Entity what, Entity target) {
+    public SpellTargetingEvent(Spell spell, Player what, Entity target) {
         super(spell, what);
         this.target = target;
     }

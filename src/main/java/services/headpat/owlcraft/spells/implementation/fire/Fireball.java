@@ -3,11 +3,9 @@ package services.headpat.owlcraft.spells.implementation.fire;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.apache.commons.lang.mutable.MutableInt;
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
@@ -43,21 +41,17 @@ public class Fireball extends Spell {
     }
 
     @Override
-    public boolean activateSpell(Entity entity, int level, ItemStack glyphStack) {
-        if (!(entity instanceof Player)) {
-            return false;
-        }
-
-        Location location = entity.getLocation().add(0, 1.5, 0);
-        Vector direction = entity.getLocation().getDirection().normalize();
+    public boolean activateSpell(Player player, int level, ItemStack glyphStack) {
+        Location location = player.getLocation().add(0, 1.5, 0);
+        Vector direction = player.getLocation().getDirection().normalize();
 
         MutableInt iteration = new MutableInt(0);
         BukkitTask task = Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), () -> {
             iteration.add(1);
             double d = (iteration.toInteger() - 1) * 0.5;
 
-            if ((iteration.toInteger() > (10)) || !(this.getSpellManager().isCapable(entity))) {
-                this.getSpellManager().setInactive(this, entity, true);
+            if ((iteration.toInteger() > (10)) || !(this.getSpellManager().isCapable(player))) {
+                this.getSpellManager().setInactive(this, player, true);
                 return;
             }
 
@@ -66,30 +60,30 @@ public class Fireball extends Spell {
             double z = direction.getZ() * (d * d);
             location.add(x, y, z);
 
-            entity.getWorld().spawnParticle(Particle.REDSTONE, location, 10, 0.0, 0.0, 0.0, 1, new Particle.DustOptions(Color.RED, 2));
-            entity.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 8, 0.0, 0.0, 0.0, 1);
+            player.getWorld().spawnParticle(Particle.REDSTONE, location, 10, 0.0, 0.0, 0.0, 1, new Particle.DustOptions(Color.RED, 2));
+            player.getWorld().spawnParticle(Particle.CRIT_MAGIC, location, 8, 0.0, 0.0, 0.0, 1);
 
             if (!location.getBlock().isPassable()) {
-                entity.getWorld().createExplosion(location, 5f, true, true, entity);
+                player.getWorld().createExplosion(location, 5f, true, true, player);
                 if (glyphStack != null)
                     glyphStack.setAmount(glyphStack.getAmount() - 1);
-                this.getSpellManager().setInactive(this, entity, true);
+                this.getSpellManager().setInactive(this, player, true);
             } else {
-                entity.getWorld().getNearbyEntities(location, 1.0, 1.0, 1.0).forEach((target) -> {
-                    if (target.equals(entity) || !(target instanceof LivingEntity) || !(this.isTargetable(entity, target))) {
+                player.getWorld().getNearbyEntities(location, 1.0, 1.0, 1.0).forEach((target) -> {
+                    if (target.equals(player) || !(target instanceof LivingEntity) || !(this.isTargetable(player, target))) {
                         return;
                     }
 
-                    target.getWorld().createExplosion(target.getLocation(), 5f, true, true, entity);
+                    target.getWorld().createExplosion(target.getLocation(), 5f, true, true, player);
                     if (glyphStack != null)
                         glyphStack.setAmount(glyphStack.getAmount() - 1);
-                    this.getSpellManager().setInactive(this, entity, true);
+                    this.getSpellManager().setInactive(this, player, true);
                 });
             }
 
             location.subtract(x, y, z);
         }, 0, 2);
-        this.getSpellManager().setActive(this, entity, new SpellContext<>(task::cancel));
+        this.getSpellManager().setActive(this, player, new SpellContext<>(task::cancel));
         return glyphStack == null;
     }
 }

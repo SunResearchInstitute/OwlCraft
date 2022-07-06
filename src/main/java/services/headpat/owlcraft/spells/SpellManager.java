@@ -12,7 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -29,8 +29,8 @@ public class SpellManager implements Listener {
     private final Map<String, Spell> spells = new HashMap<>();
     private final Map<String, ShapelessRecipe> glyphs = new HashMap<>();
 
-    private final Map<Entity, Map<Spell, SpellContext<?>>> activeSpells = new HashMap<>();
-    private final Map<Spell, Map<Entity, SpellContext<?>>> activeUsers = new HashMap<>();
+    private final Map<Player, Map<Spell, SpellContext<?>>> activeSpells = new HashMap<>();
+    private final Map<Spell, Map<Player, SpellContext<?>>> activeUsers = new HashMap<>();
 
     public SpellManager() {
         Bukkit.getPluginManager().registerEvents(this, OwlCraft.getInstance());
@@ -71,22 +71,20 @@ public class SpellManager implements Listener {
         return (Collections.unmodifiableCollection(this.glyphs.values()));
     }
 
-    public boolean isCapable(Entity entity) {
-        if (entity instanceof Player) {
-            GameMode gamemode = ((Player) entity).getGameMode();
-            if (((gamemode == GameMode.CREATIVE) && !entity.hasPermission("owlcraft.creative.spells")) || (gamemode == GameMode.SPECTATOR)) {
-                return (false);
-            }
+    public boolean isCapable(Player player) {
+        GameMode gamemode = player.getGameMode();
+        if (((gamemode == GameMode.CREATIVE) && !player.hasPermission("owlcraft.creative.spells")) || (gamemode == GameMode.SPECTATOR)) {
+            return (false);
         }
-        return (entity.isValid());
+        return (player.isValid());
     }
 
 
-    public void setActive(Spell spell, Entity entity, SpellContext<?> context, Collection<Entity> targets) {
-        Map<Spell, SpellContext<?>> activeSpells = this.activeSpells.computeIfAbsent(entity, k -> new HashMap<>());
-        Map<Entity, SpellContext<?>> activeUsers = this.activeUsers.computeIfAbsent(spell, k -> new HashMap<>());
+    public void setActive(Spell spell, Player player, SpellContext<?> context, Collection<Entity> targets) {
+        Map<Spell, SpellContext<?>> activeSpells = this.activeSpells.computeIfAbsent(player, k -> new HashMap<>());
+        Map<Player, SpellContext<?>> activeUsers = this.activeUsers.computeIfAbsent(spell, k -> new HashMap<>());
         activeSpells.put(spell, context);
-        activeUsers.put(entity, context);
+        activeUsers.put(player, context);
         if (targets != null) {
             if (context == null) {
                 throw new IllegalStateException("Can't add targets with to a null context!");
@@ -95,60 +93,60 @@ public class SpellManager implements Listener {
         }
     }
 
-    public void setActive(Spell spell, Entity entity, SpellContext<?> context) {
-        this.setActive(spell, entity, context, null);
+    public void setActive(Spell spell, Player player, SpellContext<?> context) {
+        this.setActive(spell, player, context, null);
     }
 
 
-    public void setActive(Spell spell, Entity entity, Collection<Entity> targets) {
-        this.setActive(spell, entity, new SpellContext<>(null), targets);
+    public void setActive(Spell spell, Player player, Collection<Entity> targets) {
+        this.setActive(spell, player, new SpellContext<>(null), targets);
     }
 
-    public void setActive(Spell spell, Entity entity) {
-        this.setActive(spell, entity, null, null);
+    public void setActive(Spell spell, Player player) {
+        this.setActive(spell, player, null, null);
     }
 
-    public void setInactive(Spell spell, Entity entity, boolean clean) {
-        Map<Spell, SpellContext<?>> activeSpell = this.activeSpells.get(entity);
+    public void setInactive(Spell spell, Player player, boolean clean) {
+        Map<Spell, SpellContext<?>> activeSpell = this.activeSpells.get(player);
         if (activeSpell == null) {
             return;
         }
         SpellContext<?> context = activeSpell.remove(spell);
         if (activeSpell.isEmpty()) {
-            this.activeSpells.remove(entity);
+            this.activeSpells.remove(player);
         }
         if (clean && (context != null)) {
             context.clean();
         }
-        Map<Entity, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
-        activeUsers.remove(entity);
+        Map<Player, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
+        activeUsers.remove(player);
         if (activeUsers.isEmpty()) {
             this.activeUsers.remove(spell);
         }
     }
 
-    public SpellContext<?> getContext(Spell spell, Entity entity) {
-        Map<Spell, SpellContext<?>> activeSpell = this.activeSpells.get(entity);
+    public SpellContext<?> getContext(Spell spell, Player player) {
+        Map<Spell, SpellContext<?>> activeSpell = this.activeSpells.get(player);
         if (activeSpell == null) {
             return (null);
         }
         return (activeSpell.get(spell));
     }
 
-    public <T> SpellContext<T> getContext(Spell spell, Entity entity, Class<T> contextClass) {
-        return ((SpellContext<T>) this.getContext(spell, entity));
+    public <T> SpellContext<T> getContext(Spell spell, Player player, Class<T> contextClass) {
+        return ((SpellContext<T>) this.getContext(spell, player));
     }
 
-    public boolean isActive(Spell spell, Entity entity) {
-        Map<Spell, SpellContext<?>> activeSpells = this.activeSpells.get(entity);
+    public boolean isActive(Spell spell, Player player) {
+        Map<Spell, SpellContext<?>> activeSpells = this.activeSpells.get(player);
         if (activeSpells == null) {
             return (false);
         }
         return (activeSpells.containsKey(spell));
     }
 
-    public Map<Spell, SpellContext<?>> getActiveSpells(Entity entity) {
-        Map<Spell, SpellContext<?>> activeSpells = this.activeSpells.get(entity);
+    public Map<Spell, SpellContext<?>> getActiveSpells(Player player) {
+        Map<Spell, SpellContext<?>> activeSpells = this.activeSpells.get(player);
         if (activeSpells == null) {
             return (new HashMap<>());
         }
@@ -156,7 +154,7 @@ public class SpellManager implements Listener {
     }
 
     public Map<Entity, SpellContext<?>> getActiveUsers(Spell spell) {
-        Map<Entity, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
+        Map<Player, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
         if (activeUsers == null) {
             return (new HashMap<>());
         }
@@ -165,7 +163,7 @@ public class SpellManager implements Listener {
 
     public Set<Entity> getTargets(Spell spell) {
         Set<Entity> targets = new HashSet<>();
-        Map<Entity, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
+        Map<Player, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
         if (activeUsers != null) {
             activeUsers.values().forEach((context) -> {
                 if (context != null) {
@@ -178,7 +176,7 @@ public class SpellManager implements Listener {
 
     public List<Triple<Entity, SpellContext<?>, Entity>> getTargetsWithContext(Spell spell) {
         List<Triple<Entity, SpellContext<?>, Entity>> targets = new LinkedList<>();
-        Map<Entity, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
+        Map<Player, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
         if (activeUsers != null) {
             activeUsers.forEach((user, context) -> {
                 if (context != null) {
@@ -191,7 +189,7 @@ public class SpellManager implements Listener {
 
     public Map<Entity, SpellContext<?>> getTargetingUsers(Spell spell, Entity target, BiPredicate<Entity, SpellContext<?>> filter) {
         Map<Entity, SpellContext<?>> targetingUsers = new HashMap<>();
-        Map<Entity, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
+        Map<Player, SpellContext<?>> activeUsers = this.activeUsers.get(spell);
         if (activeUsers == null) {
             return (targetingUsers);
         }
@@ -207,34 +205,34 @@ public class SpellManager implements Listener {
         return (this.getTargetingUsers(spell, target, null));
     }
 
-    public boolean activateGlyph(Spell spell, Entity entity, int level, ItemStack stack) {
-        if (!(this.isCapable(entity))) {
+    public boolean activateGlyph(Spell spell, Player player, int level, ItemStack stack) {
+        if (!(this.isCapable(player))) {
             return (false);
         }
-        if (this.isActive(spell, entity) && !spell.ignoreIsActive()) {
+        if (this.isActive(spell, player) && !spell.ignoreIsActive()) {
             return (false);
         }
 
-        SpellCastEvent event = new SpellCastEvent(spell, level, stack, entity);
+        SpellCastEvent event = new SpellCastEvent(spell, level, stack, player);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
             return (false);
         }
         level = event.getLevel();
 
-        return spell.activateSpell(entity, level, stack);
+        return spell.activateSpell(player, level, stack);
     }
 
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onSpellTargeting(SpellTargetingEvent event) {
-        EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getEntity(), event.getTarget(), EntityDamageEvent.DamageCause.ENTITY_ATTACK, 5d);
+        EntityDamageByEntityEvent damageEvent = new EntityDamageByEntityEvent(event.getPlayer(), event.getTarget(), EntityDamageEvent.DamageCause.ENTITY_ATTACK, 5d);
         Bukkit.getPluginManager().callEvent(damageEvent);
         event.setCancelled(damageEvent.isCancelled());
     }
 
     @EventHandler
-    private void onEntityDeath(EntityDeathEvent event) {
+    private void onPlayerDeath(PlayerDeathEvent event) {
         for (Spell spell : this.getActiveSpells(event.getEntity()).keySet()) {
             this.setInactive(spell, event.getEntity(), true);
         }

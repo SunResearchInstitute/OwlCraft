@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -48,16 +47,16 @@ public class TeleportAnchor extends Spell {
     }
 
     @Override
-    public boolean activateSpell(Entity entity, int level, ItemStack glyphStack) {
-        if (this.spellManager.isActive(this, entity)) {
-            if (entity instanceof Player && ((Player) entity).isSneaking()) {
-                this.spellManager.setInactive(this, entity, true);
+    public boolean activateSpell(Player player, int level, ItemStack glyphStack) {
+        if (this.spellManager.isActive(this, player)) {
+            if (player.isSneaking()) {
+                this.spellManager.setInactive(this, player, true);
                 return false;
             }
-            SpellContext<Location> ctx = this.spellManager.getContext(this, entity, Location.class);
+            SpellContext<Location> ctx = this.spellManager.getContext(this, player, Location.class);
             Location newLoc = ctx.getContext();
-            Location oldLoc = entity.getLocation();
-            entity.teleport(newLoc);
+            Location oldLoc = player.getLocation();
+            player.teleport(newLoc);
             newLoc.setDirection(oldLoc.getDirection());
 
             oldLoc.getWorld().spawnParticle(Particle.REVERSE_PORTAL, oldLoc, 35, 0.2, 0.2, 0.2);
@@ -65,20 +64,20 @@ public class TeleportAnchor extends Spell {
             newLoc.getWorld().spawnParticle(Particle.PORTAL, newLoc, 35, 0.2, 0.2, 0.2);
             newLoc.getWorld().playSound(newLoc, Sound.ENTITY_ENDERMAN_TELEPORT, 20, 1.8f);
             if (glyphStack.getAmount() == 1) {
-                this.spellManager.setInactive(this, entity, true);
+                this.spellManager.setInactive(this, player, true);
             }
             return true;
         } else {
-            Location loc = entity.getLocation().clone();
+            Location loc = player.getLocation().clone();
             loc.getWorld().playSound(loc, Sound.BLOCK_ENDER_CHEST_OPEN, 20, 1.2f);
             BukkitTask task = Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), () -> loc.getWorld()
                     .spawnParticle(Particle.REVERSE_PORTAL, loc, 20, 0.1, 0.1, 0.1), 20, 10);
-            this.spellManager.setActive(this, entity, new SpellContext<>(loc, () -> {
+            this.spellManager.setActive(this, player, new SpellContext<>(loc, () -> {
                 loc.getWorld().playSound(loc, Sound.BLOCK_ENDER_CHEST_OPEN, 20, 0.6f);
                 task.cancel();
-                entity.sendMessage(MESSAGE_UNSET);
+                player.sendMessage(MESSAGE_UNSET);
             }));
-            entity.sendMessage(MESSAGE_SET);
+            player.sendMessage(MESSAGE_SET);
             return false;
         }
     }

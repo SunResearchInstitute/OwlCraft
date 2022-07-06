@@ -4,6 +4,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.potion.PotionEffect;
@@ -51,13 +52,13 @@ public class Ice extends Spell {
     }
 
     @Override
-    public boolean activateSpell(Entity entity, int level, ItemStack glyphStack) {
+    public boolean activateSpell(Player player, int level, ItemStack glyphStack) {
         int ticks = MiscUtils.timeToTicks(0, 3) + (level * 20);
 
         int targetCnt = 0;
 
-        for (Entity target : entity.getNearbyEntities(4 + level, 4 + level, 4 + level)) {
-            if (target instanceof LivingEntity && this.isTargetable(entity, target)
+        for (Entity target : player.getNearbyEntities(4 + level, 4 + level, 4 + level)) {
+            if (target instanceof LivingEntity && this.isTargetable(player, target)
                     && !((LivingEntity) target).hasPotionEffect(PotionEffectType.INVISIBILITY)) {
                 targetCnt++;
 
@@ -73,7 +74,7 @@ public class Ice extends Spell {
         if (targetCnt > 0) {
             return true;
         } else {
-            entity.sendMessage(ChatColor.RED + "No targets found!");
+            player.sendMessage(ChatColor.RED + "No targets found!");
             return false;
         }
     }
