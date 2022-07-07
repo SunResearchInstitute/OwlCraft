@@ -12,6 +12,7 @@ import org.bukkit.util.Vector;
 import services.headpat.owlcraft.OwlCraft;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class BeamUtils {
@@ -25,7 +26,7 @@ public class BeamUtils {
      * @param color              What color default beam?
      */
     public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, FluidCollisionMode fluidCollisionMode, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
-        return createBeamAndTeleportToLocation(player, distance, 1.0, fluidCollisionMode, action, targetable, defaultBeam, color);
+        return createBeamAndTeleportToLocation(player, distance, 1, fluidCollisionMode, action, targetable, defaultBeam, color);
     }
 
     /**
@@ -37,7 +38,7 @@ public class BeamUtils {
      * @param color       What color default beam?
      */
     public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
-        return createBeamAndTeleportToLocation(player, distance, 1.0, FluidCollisionMode.NEVER, action, targetable, defaultBeam, color);
+        return createBeamAndTeleportToLocation(player, distance, 1, FluidCollisionMode.NEVER, action, targetable, defaultBeam, color);
     }
 
     /**
@@ -48,7 +49,7 @@ public class BeamUtils {
      * @param color       What color default beam?
      */
     public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, boolean defaultBeam, Color color) {
-        return createBeamAndTeleportToLocation(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, defaultBeam, color);
+        return createBeamAndTeleportToLocation(player, distance, 1, FluidCollisionMode.NEVER, action, null, defaultBeam, color);
     }
 
     /**
@@ -58,31 +59,31 @@ public class BeamUtils {
      * @param color    What color default beam?
      */
     public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
-        return createBeamAndTeleportToLocation(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, true, color);
+        return createBeamAndTeleportToLocation(player, distance, 1, FluidCollisionMode.NEVER, action, null, true, color);
     }
 
     /**
      * @param player        Player to create the beam from.
      * @param distance      Distance the beam should travel.
-     * @param blocksPerTick How many blocks the beam should travel per tick.
+     * @param blocksPerTick How many times the beam should travel per tick.
      * @param action        Action to perform on each block.
      * @param color         What color default beam?
      */
-    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, double blocksPerTick, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, int blocksPerTick, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
         return createBeamAndTeleportToLocation(player, distance, blocksPerTick, FluidCollisionMode.NEVER, action, null, true, color);
     }
 
     /**
      * @param player             Player to create the beam from.
      * @param distance           Distance the beam should travel.
-     * @param blocksPerTick      How many blocks the beam should travel per tick.
+     * @param loopsPerTick       How many times the beam should travel per tick.
      * @param fluidCollisionMode How the beam should collide with fluids.
      * @param action             Action to perform on each block.
      * @param targetable         predicate to be used for rayTrace set to null to use rayTraceBlocks.
      * @param defaultBeam        Use default beam provided?
      * @param color              What color default beam?
      */
-    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, double blocksPerTick, FluidCollisionMode fluidCollisionMode, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, int loopsPerTick, FluidCollisionMode fluidCollisionMode, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
         Location src = player.getLocation();
         Vector direction = src.getDirection();
         Vector velocity = player.getVelocity();
@@ -116,12 +117,12 @@ public class BeamUtils {
             Vector dir = src.getDirection();
 
             double distanceSquared = src.distanceSquared(dest);
-            Vector blockDist = dir.clone().multiply(blocksPerTick);
+            Vector blockDist = dir.clone().multiply(0.5);
 
             MutableInt iteration = new MutableInt(0);
-            Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), task -> {
+            Consumer<BukkitTask> bukkitTaskConsumer = task -> {
                 iteration.add(1);
-                double dist = iteration.toInteger() * blocksPerTick;
+                double dist = iteration.toInteger() * 0.5;
                 if (((dist * dist) > distanceSquared) || !(OwlCraft.getInstance().getSpellManager().isCapable(player))) {
                     return;
                 }
@@ -134,6 +135,11 @@ public class BeamUtils {
                 }
 
                 location.add(blockDist);
+            };
+            Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), task -> {
+                for (int i = 0; i < loopsPerTick; i++) {
+                    bukkitTaskConsumer.accept(task);
+                }
             }, 0, 1);
         }
         return Pair.of(to, true);
@@ -150,7 +156,7 @@ public class BeamUtils {
      * @param color              What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, FluidCollisionMode fluidCollisionMode, BiConsumer<MutableInt, Location> action, Predicate<Entity> targetable, Runnable cleanup, boolean defaultBeam, Color color) {
-        return createBeam(player, distance, 1.0, fluidCollisionMode, action, targetable, cleanup, defaultBeam, color);
+        return createBeam(player, distance, 1, fluidCollisionMode, action, targetable, cleanup, defaultBeam, color);
     }
 
     /**
@@ -163,7 +169,7 @@ public class BeamUtils {
      * @param color       What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, Predicate<Entity> targetable, Runnable cleanup, boolean defaultBeam, Color color) {
-        return createBeam(player, distance, 1.0, FluidCollisionMode.NEVER, action, targetable, cleanup, defaultBeam, color);
+        return createBeam(player, distance, 1, FluidCollisionMode.NEVER, action, targetable, cleanup, defaultBeam, color);
     }
 
     /**
@@ -175,7 +181,7 @@ public class BeamUtils {
      * @param color       What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, Runnable cleanup, boolean defaultBeam, Color color) {
-        return createBeam(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, cleanup, defaultBeam, color);
+        return createBeam(player, distance, 1, FluidCollisionMode.NEVER, action, null, cleanup, defaultBeam, color);
     }
 
     /**
@@ -186,7 +192,7 @@ public class BeamUtils {
      * @param color       What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, boolean defaultBeam, Color color) {
-        return createBeam(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, null, defaultBeam, color);
+        return createBeam(player, distance, 1, FluidCollisionMode.NEVER, action, null, null, defaultBeam, color);
     }
 
     /**
@@ -197,7 +203,7 @@ public class BeamUtils {
      * @param color    What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, Runnable cleanup, Color color) {
-        return createBeam(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, cleanup, true, color);
+        return createBeam(player, distance, 1, FluidCollisionMode.NEVER, action, null, cleanup, true, color);
     }
 
     /**
@@ -208,7 +214,7 @@ public class BeamUtils {
      * @param color      What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, Predicate<Entity> targetable, Color color) {
-        return createBeam(player, distance, 1.0, null, action, targetable, null, true, color);
+        return createBeam(player, distance, 1, null, action, targetable, null, true, color);
     }
 
     /**
@@ -218,25 +224,25 @@ public class BeamUtils {
      * @param color    What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, Color color) {
-        return createBeam(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, null, true, color);
+        return createBeam(player, distance, 1, FluidCollisionMode.NEVER, action, null, null, true, color);
     }
 
     /**
-     * @param player        Player to create the beam from.
-     * @param distance      Distance the beam should travel.
-     * @param blocksPerTick How many blocks the beam should travel per tick.
-     * @param action        Action to perform on each block.
-     * @param cleanup       Actions to perform on task finish.
-     * @param color         What color default beam?
+     * @param player       Player to create the beam from.
+     * @param distance     Distance the beam should travel.
+     * @param loopsPerTick How many times the beam should travel per tick.
+     * @param action       Action to perform on each block.
+     * @param cleanup      Actions to perform on task finish.
+     * @param color        What color default beam?
      */
-    public static BukkitTask createBeam(Player player, double distance, double blocksPerTick, BiConsumer<MutableInt, Location> action, Runnable cleanup, Color color) {
-        return createBeam(player, distance, blocksPerTick, FluidCollisionMode.NEVER, action, null, cleanup, true, color);
+    public static BukkitTask createBeam(Player player, double distance, int loopsPerTick, BiConsumer<MutableInt, Location> action, Runnable cleanup, Color color) {
+        return createBeam(player, distance, loopsPerTick, FluidCollisionMode.NEVER, action, null, cleanup, true, color);
     }
 
     /**
      * @param player             Player to create the beam from.
      * @param distance           Distance the beam should travel.
-     * @param blocksPerTick      How many blocks the beam should travel per tick.
+     * @param loopsPerTick       How many times the beam should travel per tick.
      * @param fluidCollisionMode How the beam should collide with fluids.
      * @param action             Action to perform on each block.
      * @param targetable         predicate to be used for rayTrace set to null to use rayTraceBlocks.
@@ -244,7 +250,7 @@ public class BeamUtils {
      * @param defaultBeam        Use default beam provided?
      * @param color              What color default beam?
      */
-    public static BukkitTask createBeam(Player player, double distance, double blocksPerTick, FluidCollisionMode fluidCollisionMode, BiConsumer<MutableInt, Location> action, Predicate<Entity> targetable, Runnable cleanup, boolean defaultBeam, Color color) {
+    public static BukkitTask createBeam(Player player, double distance, int loopsPerTick, FluidCollisionMode fluidCollisionMode, BiConsumer<MutableInt, Location> action, Predicate<Entity> targetable, Runnable cleanup, boolean defaultBeam, Color color) {
         Location src = player.getLocation();
         Vector direction = src.getDirection();
         Vector velocity = player.getVelocity();
@@ -272,12 +278,12 @@ public class BeamUtils {
         Vector dir = src.getDirection();
 
         double distanceSquared = src.distanceSquared(dest);
-        Vector blockDist = dir.clone().multiply(blocksPerTick);
+        Vector blockDist = dir.clone().multiply(0.5);
 
         MutableInt iteration = new MutableInt(0);
-        return Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), () -> {
+        Runnable runnable = () -> {
             iteration.add(1);
-            double dist = iteration.toInteger() * blocksPerTick;
+            double dist = iteration.toInteger() * 0.5;
             if (((dist * dist) > distanceSquared) || !(OwlCraft.getInstance().getSpellManager().isCapable(player))) {
                 if (cleanup != null) {
                     cleanup.run();
@@ -293,6 +299,11 @@ public class BeamUtils {
             }
 
             location.add(blockDist);
+        };
+        return Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), () -> {
+            for (int i = 0; i < loopsPerTick; i++) {
+                runnable.run();
+            }
         }, 0, 1);
     }
 }
