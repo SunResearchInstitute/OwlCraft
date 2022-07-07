@@ -63,14 +63,14 @@ public class BeamUtils {
     }
 
     /**
-     * @param player        Player to create the beam from.
-     * @param distance      Distance the beam should travel.
-     * @param blocksPerTick How many times the beam should travel per tick.
-     * @param action        Action to perform on each block.
-     * @param color         What color default beam?
+     * @param player       Player to create the beam from.
+     * @param distance     Distance the beam should travel.
+     * @param loopsPerTick How many times the beam should travel per tick.
+     * @param action       Action to perform on each block.
+     * @param color        What color default beam?
      */
-    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, int blocksPerTick, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
-        return createBeamAndTeleportToLocation(player, distance, blocksPerTick, FluidCollisionMode.NEVER, action, null, true, color);
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, int loopsPerTick, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
+        return createBeamAndTeleportToLocation(player, distance, loopsPerTick, FluidCollisionMode.NEVER, action, null, true, color);
     }
 
     /**
