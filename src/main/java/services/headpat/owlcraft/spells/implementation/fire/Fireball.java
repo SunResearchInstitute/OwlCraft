@@ -9,7 +9,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.scheduler.BukkitTask;
 import services.headpat.owlcraft.spells.Spell;
 import services.headpat.owlcraft.spells.SpellContext;
-import services.headpat.owlcraft.spells.utils.BeamUtil;
+import services.headpat.owlcraft.spells.utils.BeamUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class Fireball extends Spell {
 
     @Override
     public boolean activateSpell(Player player, int level, ItemStack glyphStack) {
-        BukkitTask task = BeamUtil.createBeam(player, 14, (mutableInt, location) -> {
+        BukkitTask task = BeamUtils.createBeam(player, 14, (mutableInt, location) -> {
             if (!location.getBlock().isPassable()) {
                 player.getWorld().createExplosion(location, 5f, true, true, player);
                 if (glyphStack != null)

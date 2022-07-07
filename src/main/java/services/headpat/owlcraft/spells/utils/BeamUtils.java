@@ -14,7 +14,7 @@ import services.headpat.owlcraft.OwlCraft;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-public class BeamUtil {
+public class BeamUtils {
     /**
      * @param player             Player to create the beam from.
      * @param distance           Distance the beam should travel.
