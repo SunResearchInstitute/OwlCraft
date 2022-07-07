@@ -212,12 +212,35 @@ public class BeamUtils {
     }
 
     /**
+     * @param player   Player to create the beam from.
+     * @param distance Distance the beam should travel.
+     * @param action   Action to perform on each block.
+     * @param color    What color default beam?
+     */
+    public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, Color color) {
+        return createBeam(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, null, true, color);
+    }
+
+    /**
+     * @param player        Player to create the beam from.
+     * @param distance      Distance the beam should travel.
+     * @param blocksPerTick How many blocks the beam should travel per tick.
+     * @param action        Action to perform on each block.
+     * @param cleanup       Actions to perform on task finish.
+     * @param color         What color default beam?
+     */
+    public static BukkitTask createBeam(Player player, double distance, double blocksPerTick, BiConsumer<MutableInt, Location> action, Runnable cleanup, Color color) {
+        return createBeam(player, distance, blocksPerTick, FluidCollisionMode.NEVER, action, null, cleanup, true, color);
+    }
+
+    /**
      * @param player             Player to create the beam from.
      * @param distance           Distance the beam should travel.
      * @param blocksPerTick      How many blocks the beam should travel per tick.
      * @param fluidCollisionMode How the beam should collide with fluids.
      * @param action             Action to perform on each block.
      * @param targetable         predicate to be used for rayTrace set to null to use rayTraceBlocks.
+     * @param cleanup            Actions to perform on task finish.
      * @param defaultBeam        Use default beam provided?
      * @param color              What color default beam?
      */
