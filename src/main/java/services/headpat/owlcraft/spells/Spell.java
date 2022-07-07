@@ -53,7 +53,7 @@ public abstract class Spell {
      * SpellManager instance.
      */
     @Getter
-    public SpellManager spellManager = null;
+    public SpellManager spellManager;
 
     /**
      * Checks if an entity is blacklisted from being affected from powers by default.

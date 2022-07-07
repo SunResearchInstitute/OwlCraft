@@ -20,6 +20,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.persistence.PersistentDataType;
 import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.spells.events.SpellCastEvent;
+import services.headpat.owlcraft.spells.events.SpellDeactivatingEvent;
 import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 
 import java.util.*;
@@ -107,6 +108,11 @@ public class SpellManager implements Listener {
     }
 
     public void setInactive(Spell spell, Player player, boolean clean) {
+        SpellDeactivatingEvent event = new SpellDeactivatingEvent(spell, player, clean);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            return;
+        }
         Map<Spell, SpellContext<?>> activeSpell = this.activeSpells.get(player);
         if (activeSpell == null) {
             return;
@@ -216,7 +222,7 @@ public class SpellManager implements Listener {
         SpellCastEvent event = new SpellCastEvent(spell, level, stack, player);
         Bukkit.getPluginManager().callEvent(event);
         if (event.isCancelled()) {
-            return (false);
+            return false;
         }
         level = event.getLevel();
 

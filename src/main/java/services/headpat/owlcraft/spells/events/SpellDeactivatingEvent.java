@@ -1,18 +1,22 @@
 package services.headpat.owlcraft.spells.events;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerEvent;
 import services.headpat.owlcraft.spells.Spell;
 
-public abstract class SpellEvent extends PlayerEvent {
+public class SpellDeactivatingEvent extends SpellEvent implements Cancellable {
     @Getter
-    protected final Spell spell;
+    @Setter
+    private boolean cancelled = false;
+    @Getter
+    private final boolean cleaning;
 
-    public SpellEvent(Spell spell, Player player) {
-        super(player);
-        this.spell = spell;
+    public SpellDeactivatingEvent(Spell spell, Player player, boolean cleaning) {
+        super(spell, player);
+        this.cleaning = cleaning;
     }
 
     /* Generated for Bukkit */

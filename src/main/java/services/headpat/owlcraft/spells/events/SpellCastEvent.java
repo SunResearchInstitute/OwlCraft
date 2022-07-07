@@ -12,7 +12,7 @@ public class SpellCastEvent extends SpellEvent implements Cancellable {
     @Getter
     @Setter
     private boolean cancelled = false;
-    @Getter
+    @Getter()
     @Setter
     private int level;
     private final ItemStack glyphStack;
