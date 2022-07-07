@@ -55,6 +55,11 @@ public class Fireball extends Spell {
                             this.getSpellManager().setInactive(this, player, true);
                         });
             }
+        }, e -> {
+            if (e.equals(player)) {
+                return (false);
+            }
+            return (this.isTargetable(player, e));
         }, Color.RED);
         this.getSpellManager().setActive(this, player, new SpellContext<>(task::cancel));
         return glyphStack == null;
