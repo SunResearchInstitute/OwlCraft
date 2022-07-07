@@ -1,6 +1,7 @@
 package services.headpat.owlcraft.spells.utils;
 
-import org.apache.commons.lang.mutable.MutableInt;
+import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
@@ -23,7 +24,7 @@ public class BeamUtil {
      * @param defaultBeam        Use default beam provided?
      * @param color              What color default beam?
      */
-    public static boolean createBeamAndTeleportToLocation(Player player, double distance, FluidCollisionMode fluidCollisionMode, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, FluidCollisionMode fluidCollisionMode, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
         return createBeamAndTeleportToLocation(player, distance, 1.0, fluidCollisionMode, action, targetable, defaultBeam, color);
     }
 
@@ -35,7 +36,7 @@ public class BeamUtil {
      * @param defaultBeam Use default beam provided?
      * @param color       What color default beam?
      */
-    public static boolean createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
         return createBeamAndTeleportToLocation(player, distance, 1.0, FluidCollisionMode.NEVER, action, targetable, defaultBeam, color);
     }
 
@@ -46,7 +47,7 @@ public class BeamUtil {
      * @param defaultBeam Use default beam provided?
      * @param color       What color default beam?
      */
-    public static boolean createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, boolean defaultBeam, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, boolean defaultBeam, Color color) {
         return createBeamAndTeleportToLocation(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, defaultBeam, color);
     }
 
@@ -56,7 +57,7 @@ public class BeamUtil {
      * @param action   Action to perform on each block.
      * @param color    What color default beam?
      */
-    public static boolean createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
         return createBeamAndTeleportToLocation(player, distance, 1.0, FluidCollisionMode.NEVER, action, null, true, color);
     }
 
@@ -67,7 +68,7 @@ public class BeamUtil {
      * @param action        Action to perform on each block.
      * @param color         What color default beam?
      */
-    public static boolean createBeamAndTeleportToLocation(Player player, double distance, double blocksPerTick, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, double blocksPerTick, TriConsumer<BukkitTask, MutableInt, Location> action, Color color) {
         return createBeamAndTeleportToLocation(player, distance, blocksPerTick, FluidCollisionMode.NEVER, action, null, true, color);
     }
 
@@ -81,7 +82,7 @@ public class BeamUtil {
      * @param defaultBeam        Use default beam provided?
      * @param color              What color default beam?
      */
-    public static boolean createBeamAndTeleportToLocation(Player player, double distance, double blocksPerTick, FluidCollisionMode fluidCollisionMode, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
+    public static Pair<Location, Boolean> createBeamAndTeleportToLocation(Player player, double distance, double blocksPerTick, FluidCollisionMode fluidCollisionMode, TriConsumer<BukkitTask, MutableInt, Location> action, Predicate<Entity> targetable, boolean defaultBeam, Color color) {
         Location src = player.getLocation();
         Vector direction = src.getDirection();
         Vector velocity = player.getVelocity();
@@ -109,7 +110,7 @@ public class BeamUtil {
 
         src = player.getLocation().clone();
         if (!(player.teleport(to))) {
-            return false;
+            return Pair.of(to, false);
         } else {
             Location location = src.clone().add(0, 1, 0);
             Vector dir = src.getDirection();
@@ -134,7 +135,7 @@ public class BeamUtil {
                 location.add(blockDist);
             }, 0, 1);
         }
-        return true;
+        return Pair.of(to, true);
     }
 
     /**
