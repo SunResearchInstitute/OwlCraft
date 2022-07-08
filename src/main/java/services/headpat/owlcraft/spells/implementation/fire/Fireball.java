@@ -2,7 +2,9 @@ package services.headpat.owlcraft.spells.implementation.fire;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -13,6 +15,7 @@ import services.headpat.owlcraft.spells.utils.BeamUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Fireball extends Spell {
     private final ShapelessRecipe glyphRecipe;
@@ -40,26 +43,24 @@ public class Fireball extends Spell {
 
     @Override
     public boolean activateSpell(Player player, int level, ItemStack glyphStack) {
-        BukkitTask task = BeamUtils.createBeam(player, 14, (mutableInt, location) -> {
-            if (!location.getBlock().isPassable()) {
-                player.getWorld().createExplosion(location, 5f, true, true, player);
+        AtomicReference<Location> lastLoc = new AtomicReference<>();
+        BukkitTask task = BeamUtils.createBeam(player, 14, 4, (mutableInt, location) -> {
+            for (LivingEntity target : player.getWorld().getNearbyLivingEntities(location, 1.0, 1.0, 1.0)) {
+                if (target.equals(player) || !this.isTargetable(player, target)) {
+                    continue;
+                }
+                target.getWorld().createExplosion(target.getLocation(), 5f, true, true, player);
                 if (glyphStack != null)
                     glyphStack.setAmount(glyphStack.getAmount() - 1);
                 this.getSpellManager().setInactive(this, player, true);
-            } else {
-                player.getWorld().getNearbyLivingEntities(location, 1.0, 1.0, 1.0, target -> !target.equals(player) || this.isTargetable(player, target))
-                        .forEach((target) -> {
-                            target.getWorld().createExplosion(target.getLocation(), 5f, true, true, player);
-                            if (glyphStack != null)
-                                glyphStack.setAmount(glyphStack.getAmount() - 1);
-                            this.getSpellManager().setInactive(this, player, true);
-                        });
+                break;
             }
-        }, e -> {
-            if (e.equals(player)) {
-                return (false);
-            }
-            return (this.isTargetable(player, e));
+            lastLoc.set(location);
+        }, () -> {
+            player.getWorld().createExplosion(lastLoc.get(), 5f, true, true, player);
+            if (glyphStack != null)
+                glyphStack.setAmount(glyphStack.getAmount() - 1);
+            this.getSpellManager().setInactive(this, player, true);
         }, Color.RED);
         this.getSpellManager().setActive(this, player, new SpellContext<>(task::cancel));
         return glyphStack == null;
