@@ -214,7 +214,7 @@ public class BeamUtils {
      * @param color      What color default beam?
      */
     public static BukkitTask createBeam(Player player, double distance, BiConsumer<MutableInt, Location> action, Predicate<Entity> targetable, Color color) {
-        return createBeam(player, distance, 1, null, action, targetable, null, true, color);
+        return createBeam(player, distance, 1, FluidCollisionMode.NEVER, action, targetable, null, true, color);
     }
 
     /**
