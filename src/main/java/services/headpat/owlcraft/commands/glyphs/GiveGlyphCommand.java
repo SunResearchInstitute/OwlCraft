@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
-import services.headpat.owlcraft.OwlCraft;
 import services.headpat.owlcraft.commands.glyphs.arguments.GlyphArgumentType;
 import services.headpat.spigotextensions.brigadier.BrigadierExecutor;
 
@@ -67,11 +66,5 @@ public class GiveGlyphCommand extends BrigadierExecutor {
                         )
                 )
         ));
-    }
-
-    public static void registerCommand() {
-        GiveGlyphCommand owlCraftServerCommand = new GiveGlyphCommand();
-        OwlCraft.getInstance().getCommand("giveglyph").setExecutor(owlCraftServerCommand);
-        OwlCraft.getInstance().getCommand("giveglyph").setTabCompleter(owlCraftServerCommand);
     }
 }

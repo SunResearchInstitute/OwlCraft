@@ -14,4 +14,4 @@ commands:
 permissions:
   owlcraft.commands.giveglyph:
     description: "Allows you to create glyphs from command"
-    default: false
+    default: op

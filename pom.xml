@@ -41,12 +41,8 @@
 				<configuration>
 					<relocations>
 						<relocation>
-							<pattern>org.bstats</pattern>
-							<shadedPattern>services.headpat.owlcraft.libs.org.bstats</shadedPattern>
-						</relocation>
-						<relocation>
 							<pattern>services.headpat.spigotextensions</pattern>
-							<shadedPattern>services.headpat.owlcraft.libs.services.headpat.spigotextensions
+							<shadedPattern>services.headpat.owlcraft.libs.spigotextensions
 							</shadedPattern>
 						</relocation>
 					</relocations>
@@ -107,8 +103,9 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.SunResearchInstitute</groupId>
-			<artifactId>SpigotExtensions</artifactId>
-			<version>2.1.1</version>
+			<artifactId>spigotextensions</artifactId>
+			<version>2.2.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
