@@ -126,6 +126,10 @@ public abstract class Spell {
         return false;
     }
 
+    public boolean deactivateOnDeath() {
+        return true;
+    }
+
     /**
      * @return List of recipes to add when registered.
      */

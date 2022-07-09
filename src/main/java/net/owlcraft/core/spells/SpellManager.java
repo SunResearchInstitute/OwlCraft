@@ -240,7 +240,9 @@ public class SpellManager implements Listener {
     @EventHandler
     private void onPlayerDeath(PlayerDeathEvent event) {
         for (Spell spell : this.getActiveSpells(event.getEntity()).keySet()) {
-            this.setInactive(spell, event.getEntity(), true);
+            if (spell.deactivateOnDeath()) {
+                this.setInactive(spell, event.getEntity(), true);
+            }
         }
     }
 

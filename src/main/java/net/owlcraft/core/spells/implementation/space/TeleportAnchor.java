@@ -21,7 +21,7 @@ public class TeleportAnchor extends Spell {
     private static final Component MESSAGE_UNSET = Component.text("Teleport anchor's gone!").decorate(TextDecoration.ITALIC).color(NamedTextColor.RED);
 
     public TeleportAnchor() {
-        recipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.BLUE, new ItemStack(Material.DIAMOND, 1), new ItemStack(Material.ENDER_PEARL, 1));
+        recipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.BLUE, new ItemStack(Material.GOLD_INGOT, 1), new ItemStack(Material.ENDER_PEARL, 1));
     }
 
     @Override
@@ -44,6 +44,11 @@ public class TeleportAnchor extends Spell {
     @Override
     public boolean ignoreIsActive() {
         return true;
+    }
+
+    @Override
+    public boolean deactivateOnDeath() {
+        return false;
     }
 
     @Override
