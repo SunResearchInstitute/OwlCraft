@@ -1,12 +1,12 @@
-package services.headpat.owlcraft.spells.events;
+package net.owlcraft.core.spells.events;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.owlcraft.core.spells.Spell;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
-import services.headpat.owlcraft.spells.Spell;
 
 public class SpellCastEvent extends SpellEvent implements Cancellable {
     @Getter

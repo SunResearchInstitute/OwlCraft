@@ -1,16 +1,16 @@
-package services.headpat.owlcraft.spells.implementation.space;
+package net.owlcraft.core.spells.implementation.space;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.owlcraft.core.OwlCraft;
+import net.owlcraft.core.spells.Spell;
+import net.owlcraft.core.spells.SpellContext;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.scheduler.BukkitTask;
-import services.headpat.owlcraft.OwlCraft;
-import services.headpat.owlcraft.spells.Spell;
-import services.headpat.owlcraft.spells.SpellContext;
 
 import java.util.ArrayList;
 import java.util.List;

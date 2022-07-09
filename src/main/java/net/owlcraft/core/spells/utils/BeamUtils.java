@@ -1,5 +1,6 @@
-package services.headpat.owlcraft.spells.utils;
+package net.owlcraft.core.spells.utils;
 
+import net.owlcraft.core.OwlCraft;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -9,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
-import services.headpat.owlcraft.OwlCraft;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;

@@ -1,6 +1,9 @@
-package services.headpat.owlcraft.spells.implementation.ice;
+package net.owlcraft.core.spells.implementation.ice;
 
+import dev.sunresearch.spigotextensions.utils.MiscUtils;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.owlcraft.core.OwlCraft;
+import net.owlcraft.core.spells.Spell;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -10,9 +13,6 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
-import services.headpat.owlcraft.OwlCraft;
-import services.headpat.owlcraft.spells.Spell;
-import services.headpat.spigotextensions.utils.MiscUtils;
 
 import java.util.ArrayList;
 import java.util.List;
