@@ -1,8 +1,8 @@
-package net.owlcraft.spells.events;
+package net.owlcraft.core.spells.events;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.owlcraft.spells.Spell;
+import net.owlcraft.core.spells.Spell;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;

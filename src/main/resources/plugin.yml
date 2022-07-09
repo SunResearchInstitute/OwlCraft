@@ -1,6 +1,6 @@
 name: "OwlCraft"
 version: ${project.version}
-main: net.owlcraft.OwlCraft
+main: net.owlcraft.core.OwlCraft
 
 api-version: "1.19"
 description: OwlCraft Plugin

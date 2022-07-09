@@ -1,4 +1,4 @@
-package net.owlcraft.spells;
+package net.owlcraft.core.spells;
 
 import lombok.Getter;
 import org.bukkit.entity.Entity;

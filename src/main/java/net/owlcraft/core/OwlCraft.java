@@ -1,11 +1,11 @@
-package net.owlcraft;
+package net.owlcraft.core;
 
 import lombok.Getter;
-import net.owlcraft.commands.glyphs.GiveGlyphCommand;
-import net.owlcraft.spells.SpellManager;
-import net.owlcraft.spells.implementation.fire.Fireball;
-import net.owlcraft.spells.implementation.ice.Ice;
-import net.owlcraft.spells.implementation.space.TeleportAnchor;
+import net.owlcraft.core.commands.glyphs.GiveGlyphCommand;
+import net.owlcraft.core.spells.SpellManager;
+import net.owlcraft.core.spells.implementation.fire.Fireball;
+import net.owlcraft.core.spells.implementation.ice.Ice;
+import net.owlcraft.core.spells.implementation.space.TeleportAnchor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class OwlCraft extends JavaPlugin {

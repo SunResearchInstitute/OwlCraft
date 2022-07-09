@@ -1,9 +1,9 @@
-package net.owlcraft.spells;
+package net.owlcraft.core.spells;
 
-import net.owlcraft.OwlCraft;
-import net.owlcraft.spells.events.SpellCastEvent;
-import net.owlcraft.spells.events.SpellDeactivatingEvent;
-import net.owlcraft.spells.events.SpellTargetingEvent;
+import net.owlcraft.core.OwlCraft;
+import net.owlcraft.core.spells.events.SpellCastEvent;
+import net.owlcraft.core.spells.events.SpellDeactivatingEvent;
+import net.owlcraft.core.spells.events.SpellTargetingEvent;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.owlcraft</groupId>
-	<artifactId>owlcraft</artifactId>
+	<artifactId>owlcraftcore</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -104,7 +104,7 @@
 		<dependency>
 			<groupId>com.github.SunResearchInstitute</groupId>
 			<artifactId>spigotextensions</artifactId>
-			<version>2.2.0</version>
+			<version>2.3.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

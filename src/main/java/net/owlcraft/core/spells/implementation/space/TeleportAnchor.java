@@ -1,11 +1,11 @@
-package net.owlcraft.spells.implementation.space;
+package net.owlcraft.core.spells.implementation.space;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.owlcraft.OwlCraft;
-import net.owlcraft.spells.Spell;
-import net.owlcraft.spells.SpellContext;
+import net.owlcraft.core.OwlCraft;
+import net.owlcraft.core.spells.Spell;
+import net.owlcraft.core.spells.SpellContext;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

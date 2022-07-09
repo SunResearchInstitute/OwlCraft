@@ -1,6 +1,6 @@
-package net.owlcraft.spells.utils;
+package net.owlcraft.core.spells.utils;
 
-import net.owlcraft.OwlCraft;
+import net.owlcraft.core.OwlCraft;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.util.TriConsumer;

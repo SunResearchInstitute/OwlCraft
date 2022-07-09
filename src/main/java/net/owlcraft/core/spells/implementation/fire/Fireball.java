@@ -1,9 +1,9 @@
-package net.owlcraft.spells.implementation.fire;
+package net.owlcraft.core.spells.implementation.fire;
 
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.owlcraft.spells.Spell;
-import net.owlcraft.spells.SpellContext;
-import net.owlcraft.spells.utils.BeamUtils;
+import net.owlcraft.core.spells.Spell;
+import net.owlcraft.core.spells.SpellContext;
+import net.owlcraft.core.spells.utils.BeamUtils;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
