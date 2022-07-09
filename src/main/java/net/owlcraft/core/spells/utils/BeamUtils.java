@@ -1,5 +1,6 @@
 package net.owlcraft.core.spells.utils;
 
+import lombok.experimental.UtilityClass;
 import net.owlcraft.core.OwlCraft;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,6 +16,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@UtilityClass
 public class BeamUtils {
     /**
      * @param player             Player to create the beam from.
