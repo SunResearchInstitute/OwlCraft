@@ -1,21 +1,21 @@
-package services.headpat.owlcraft.commands.glyphs;
+package net.owlcraft.commands.glyphs;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.owlcraft.commands.glyphs.arguments.GlyphArgumentType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
-import services.headpat.owlcraft.commands.glyphs.arguments.GlyphArgumentType;
 import services.headpat.spigotextensions.brigadier.BrigadierExecutor;
 
 import java.util.Arrays;
 
 import static com.mojang.brigadier.arguments.IntegerArgumentType.getInteger;
-import static services.headpat.owlcraft.commands.glyphs.arguments.GlyphArgumentType.getGlyph;
+import static net.owlcraft.commands.glyphs.arguments.GlyphArgumentType.getGlyph;
 import static services.headpat.spigotextensions.brigadier.arguments.PlayerArgumentType.getPlayer;
 import static services.headpat.spigotextensions.brigadier.arguments.PlayerArgumentType.player;
 

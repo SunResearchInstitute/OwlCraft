@@ -1,9 +1,11 @@
-package services.headpat.owlcraft.spells;
+package net.owlcraft.spells;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.owlcraft.OwlCraft;
+import net.owlcraft.spells.events.SpellTargetingEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -16,8 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import services.headpat.owlcraft.OwlCraft;
-import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 import services.headpat.spigotextensions.utils.ChatUtils;
 
 import java.util.*;

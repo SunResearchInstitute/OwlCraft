@@ -1,6 +1,9 @@
-package services.headpat.owlcraft.spells.implementation.fire;
+package net.owlcraft.spells.implementation.fire;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.owlcraft.spells.Spell;
+import net.owlcraft.spells.SpellContext;
+import net.owlcraft.spells.utils.BeamUtils;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,9 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.scheduler.BukkitTask;
-import services.headpat.owlcraft.spells.Spell;
-import services.headpat.owlcraft.spells.SpellContext;
-import services.headpat.owlcraft.spells.utils.BeamUtils;
 
 import java.util.ArrayList;
 import java.util.List;

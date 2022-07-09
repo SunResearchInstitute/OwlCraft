@@ -1,4 +1,4 @@
-package services.headpat.owlcraft.spells;
+package net.owlcraft.spells;
 
 import lombok.Getter;
 import org.bukkit.entity.Entity;

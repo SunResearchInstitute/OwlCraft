@@ -1,5 +1,9 @@
-package services.headpat.owlcraft.spells;
+package net.owlcraft.spells;
 
+import net.owlcraft.OwlCraft;
+import net.owlcraft.spells.events.SpellCastEvent;
+import net.owlcraft.spells.events.SpellDeactivatingEvent;
+import net.owlcraft.spells.events.SpellTargetingEvent;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;
@@ -18,10 +22,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.persistence.PersistentDataType;
-import services.headpat.owlcraft.OwlCraft;
-import services.headpat.owlcraft.spells.events.SpellCastEvent;
-import services.headpat.owlcraft.spells.events.SpellDeactivatingEvent;
-import services.headpat.owlcraft.spells.events.SpellTargetingEvent;
 
 import java.util.*;
 import java.util.function.BiPredicate;

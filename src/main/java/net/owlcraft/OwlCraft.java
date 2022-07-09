@@ -1,12 +1,12 @@
-package services.headpat.owlcraft;
+package net.owlcraft;
 
 import lombok.Getter;
+import net.owlcraft.commands.glyphs.GiveGlyphCommand;
+import net.owlcraft.spells.SpellManager;
+import net.owlcraft.spells.implementation.fire.Fireball;
+import net.owlcraft.spells.implementation.ice.Ice;
+import net.owlcraft.spells.implementation.space.TeleportAnchor;
 import org.bukkit.plugin.java.JavaPlugin;
-import services.headpat.owlcraft.commands.glyphs.GiveGlyphCommand;
-import services.headpat.owlcraft.spells.SpellManager;
-import services.headpat.owlcraft.spells.implementation.fire.Fireball;
-import services.headpat.owlcraft.spells.implementation.ice.Ice;
-import services.headpat.owlcraft.spells.implementation.space.TeleportAnchor;
 
 public final class OwlCraft extends JavaPlugin {
     @Getter
