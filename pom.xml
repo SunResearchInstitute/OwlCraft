@@ -41,7 +41,7 @@
 				<configuration>
 					<relocations>
 						<relocation>
-							<pattern>services.headpat.spigotextensions</pattern>
+							<pattern>dev.sunresearch.spigotextensions</pattern>
 							<shadedPattern>net.owlcraft.libs.spigotextensions
 							</shadedPattern>
 						</relocation>

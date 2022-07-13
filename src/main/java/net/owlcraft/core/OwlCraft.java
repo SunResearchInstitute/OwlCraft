@@ -1,7 +1,7 @@
 package net.owlcraft.core;
 
 import lombok.Getter;
-import net.owlcraft.core.commands.glyphs.GiveGlyphCommand;
+import net.owlcraft.core.commands.glyphs.GlyphCommand;
 import net.owlcraft.core.spells.SpellManager;
 import net.owlcraft.core.spells.implementation.fire.Fireball;
 import net.owlcraft.core.spells.implementation.ice.Ice;
@@ -27,7 +27,7 @@ public final class OwlCraft extends JavaPlugin {
     }
 
     private void loadCommands() {
-        new GiveGlyphCommand().registerCommand(getCommand("giveglyph"));
+        new GlyphCommand().registerCommand(getCommand("giveglyph"));
     }
 
     private static void loadSpells(SpellManager spellManager) {

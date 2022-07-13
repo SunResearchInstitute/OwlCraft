@@ -4,14 +4,17 @@ main: net.owlcraft.core.OwlCraft
 
 api-version: "1.19"
 description: OwlCraft Plugin
-authors: [ "SunTheCourier", "SunResearchInstitute" ]
+authors: [ "gabehxd", "SunResearchInstitute" ]
 
 commands:
-  giveglyph:
-    description: "Gives you the specified glyph"
-    permission: owlcraft.commands.giveglyph
+  glyph:
+    description: "Glyph command main menu"
+    permission: owlcraft.commands.glyph
 
 permissions:
-  owlcraft.commands.giveglyph:
-    description: "Allows you to create glyphs from command"
+  owlcraft.commands.glyph:
+    description: "Allows access to glyph command"
+    default: op
+  owlcraft.commands.glyph.give:
+    description: "Allows you to give glyphs"
     default: op
