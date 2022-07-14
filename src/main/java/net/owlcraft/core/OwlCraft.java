@@ -27,7 +27,7 @@ public final class OwlCraft extends JavaPlugin {
     }
 
     private void loadCommands() {
-        new GlyphCommand().registerCommand(getCommand("giveglyph"));
+        new GlyphCommand().registerCommand(getCommand("glyph"));
     }
 
     private static void loadSpells(SpellManager spellManager) {
