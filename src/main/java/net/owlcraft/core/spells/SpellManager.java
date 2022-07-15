@@ -4,6 +4,9 @@ import net.owlcraft.core.OwlCraft;
 import net.owlcraft.core.spells.events.SpellCastEvent;
 import net.owlcraft.core.spells.events.SpellDeactivatingEvent;
 import net.owlcraft.core.spells.events.SpellTargetingEvent;
+import net.owlcraft.core.spells.implementation.fire.Fireball;
+import net.owlcraft.core.spells.implementation.ice.Ice;
+import net.owlcraft.core.spells.implementation.space.TeleportAnchor;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;
@@ -35,6 +38,11 @@ public class SpellManager implements Listener {
 
     public SpellManager() {
         Bukkit.getPluginManager().registerEvents(this, OwlCraft.getInstance());
+
+        /* load spells */
+        this.add(new Fireball());
+        this.add(new Ice());
+        this.add(new TeleportAnchor());
     }
 
 

@@ -3,9 +3,6 @@ package net.owlcraft.core;
 import lombok.Getter;
 import net.owlcraft.core.commands.glyphs.GlyphCommand;
 import net.owlcraft.core.spells.SpellManager;
-import net.owlcraft.core.spells.implementation.fire.Fireball;
-import net.owlcraft.core.spells.implementation.ice.Ice;
-import net.owlcraft.core.spells.implementation.space.TeleportAnchor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class OwlCraft extends JavaPlugin {
@@ -22,17 +19,10 @@ public final class OwlCraft extends JavaPlugin {
     @Override
     public void onEnable() {
         spellManager = new SpellManager();
-        loadSpells(spellManager);
         loadCommands();
     }
 
     private void loadCommands() {
         new GlyphCommand().registerCommand(getCommand("glyph"));
-    }
-
-    private static void loadSpells(SpellManager spellManager) {
-        spellManager.add(new Fireball());
-        spellManager.add(new Ice());
-        spellManager.add(new TeleportAnchor());
     }
 }
