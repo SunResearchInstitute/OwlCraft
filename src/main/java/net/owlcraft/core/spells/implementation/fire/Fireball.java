@@ -42,6 +42,11 @@ public class Fireball extends Spell {
     }
 
     @Override
+    public boolean deactivateOnDeath() {
+        return false;
+    }
+
+    @Override
     public boolean activateSpell(Player player, int level, ItemStack glyphStack) {
         MutableObject<Location> lastLoc = new MutableObject<>();
         BukkitTask task = BeamUtils.createBeam(player, 14, 4, (mutableInt, location) -> {
@@ -62,6 +67,6 @@ public class Fireball extends Spell {
             if (glyphStack != null)
                 glyphStack.setAmount(glyphStack.getAmount() - 1);
         }));
-        return glyphStack == null;
+        return glyphStack != null;
     }
 }
