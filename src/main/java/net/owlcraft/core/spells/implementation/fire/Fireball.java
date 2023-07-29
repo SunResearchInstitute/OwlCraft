@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Fireball extends Spell {
     private final ShapelessRecipe glyphRecipe;
@@ -59,14 +60,14 @@ public class Fireball extends Spell {
             }
             lastLoc.setValue(location);
         }, () -> {
-            player.getWorld().createExplosion(lastLoc.getValue(), 5f, true, true, player);
+            player.getWorld().createExplosion(Objects.requireNonNullElse(lastLoc.getValue(), player.getLocation()), 5f, true, true, player);
             this.getSpellManager().setInactive(this, player, false);
         }, Color.RED);
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
             task.cancel();
-            if (glyphStack != null)
+            if (glyphStack != null && glyphStack.getAmount() > 0)
                 glyphStack.setAmount(glyphStack.getAmount() - 1);
         }));
-        return glyphStack != null;
+        return this.getSpellManager().isActive(this, player);
     }
 }

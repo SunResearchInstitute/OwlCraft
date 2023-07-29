@@ -122,6 +122,15 @@ public abstract class Spell {
      */
     public abstract String getDescription();
 
+    /**
+     * Gets the spell's appearance.
+     *
+     * @return The spell's custom model data.
+     */
+    public int getCustomModelData() {
+        return 0;
+    }
+
     public boolean ignoreIsActive() {
         return false;
     }
@@ -168,6 +177,7 @@ public abstract class Spell {
         ItemMeta meta = stack.getItemMeta();
         meta.displayName(Component.text(size + (!size.equals("") ? " " : "") + this.getName() + " Glyph").color(NamedTextColor.AQUA));
         meta.lore(ChatUtils.createLore(this.getDescription(), loreChatColor));
+        meta.setCustomModelData(this.getCustomModelData());
         meta.addEnchant(Enchantment.DURABILITY, 5, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
         meta.getPersistentDataContainer().set(Spell.SPELL_NAME_KEY, PersistentDataType.STRING, this.getName());

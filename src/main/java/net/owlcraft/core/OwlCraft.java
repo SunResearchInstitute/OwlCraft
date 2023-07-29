@@ -1,5 +1,6 @@
 package net.owlcraft.core;
 
+import dev.sunresearch.spigotextensions.utils.ChatUtils;
 import lombok.Getter;
 import net.owlcraft.core.commands.glyphs.GlyphCommand;
 import net.owlcraft.core.spells.SpellManager;
