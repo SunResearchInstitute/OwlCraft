@@ -61,7 +61,7 @@ public class Fireball extends Spell {
             lastLoc.setValue(location);
         }, () -> {
             player.getWorld().createExplosion(Objects.requireNonNullElse(lastLoc.getValue(), player.getLocation()), 5f, true, true, player);
-            this.getSpellManager().setInactive(this, player, false);
+            this.getSpellManager().setInactive(this, player, true);
         }, Color.RED);
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
             task.cancel();
