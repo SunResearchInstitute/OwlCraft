@@ -55,6 +55,7 @@ public class Fireball extends Spell {
                 if (target.equals(player) || !this.isTargetable(player, target)) {
                     continue;
                 }
+
                 target.getWorld().createExplosion(target.getLocation(), 5f, true, true, player);
                 this.getSpellManager().setInactive(this, player, true);
             }
