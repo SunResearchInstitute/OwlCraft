@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Fireball extends Spell {
+public class Fireball extends Spell{
     private final ShapelessRecipe glyphRecipe;
 
     public Fireball() {
@@ -55,13 +55,14 @@ public class Fireball extends Spell {
                 if (target.equals(player) || !this.isTargetable(player, target)) {
                     continue;
                 }
-
                 target.getWorld().createExplosion(target.getLocation(), 5f, true, true, player);
                 this.getSpellManager().setInactive(this, player, true);
             }
             lastLoc.setValue(location);
         }, () -> {
-            player.getWorld().createExplosion(Objects.requireNonNullElse(lastLoc.getValue(), player.getLocation()), 5f, true, true, player);
+            if (lastLoc.getValue() != null) {
+                player.getWorld().createExplosion(lastLoc.getValue(), 5f, true, true, player);
+            }
             this.getSpellManager().setInactive(this, player, true);
         }, Color.RED);
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
