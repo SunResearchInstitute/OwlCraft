@@ -74,7 +74,7 @@ public class Ice extends Spell {
         if (targetCnt > 0) {
             return true;
         } else {
-            player.sendMessage(ChatColor.RED + "No targets found!");
+            player.sendRichMessage("<red>No targets found!");
             return false;
         }
     }

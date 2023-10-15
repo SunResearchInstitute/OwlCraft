@@ -6,6 +6,7 @@ import net.owlcraft.core.spells.events.SpellDeactivatingEvent;
 import net.owlcraft.core.spells.events.SpellTargetingEvent;
 import net.owlcraft.core.spells.implementation.fire.Fireball;
 import net.owlcraft.core.spells.implementation.ice.Ice;
+import net.owlcraft.core.spells.implementation.space.SafetyHover;
 import net.owlcraft.core.spells.implementation.space.TeleportAnchor;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
@@ -43,6 +44,7 @@ public class SpellManager implements Listener {
         this.add(new Fireball());
         this.add(new Ice());
         this.add(new TeleportAnchor());
+        this.add(new SafetyHover());
     }
 
 

@@ -86,7 +86,7 @@ public abstract class Spell {
                 return (false);
             }
         }
-        if ((target instanceof Tameable) && (what instanceof AnimalTamer)) {
+        if ((target instanceof Tameable) && (what != null)) {
             if (((Tameable) target).isTamed() && what.equals(((Tameable) target).getOwner())) {
                 return (false);
             }
@@ -98,7 +98,7 @@ public abstract class Spell {
     }
 
     /**
-     * Checks if an player is a suitable target for a power.
+     * Checks if a player is a suitable target for a power.
      *
      * @param player The player using the spell.
      * @param target The target player.
