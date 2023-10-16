@@ -18,6 +18,8 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.sunresearch.spigotextensions.utils.MiscUtils;
+
 public class SafetyHover extends Spell implements Listener {
     private final ShapelessRecipe recipe;
 
@@ -47,8 +49,8 @@ public class SafetyHover extends Spell implements Listener {
         if (player.hasPotionEffect(PotionEffectType.LEVITATION) || player.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
             return false;
         }
-        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 2, 255, false, false, true));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 6, 0, false, false, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, MiscUtils.timeToTicks(0, 2), 255, false, false, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, MiscUtils.timeToTicks(0, 6), 0, false, false, true));
 
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
             player.removePotionEffect(PotionEffectType.LEVITATION);
@@ -65,12 +67,7 @@ public class SafetyHover extends Spell implements Listener {
                 return;
             }
             if (event.getOldEffect() != null && (event.getOldEffect().getType().equals(PotionEffectType.SLOW_FALLING))) {
-                if (event.getNewEffect() == null) {
-                    //We check to make sure a plugin (most likely Cleanse) or milk removed the effects
-                    if ((event.getCause().equals(EntityPotionEffectEvent.Cause.MILK) || event.getCause().equals(EntityPotionEffectEvent.Cause.PLUGIN))) {
-                        this.getSpellManager().setInactive(this, player, true);
-                    }
-                }
+                this.getSpellManager().setInactive(this, player, true);
             }
         }
     }
