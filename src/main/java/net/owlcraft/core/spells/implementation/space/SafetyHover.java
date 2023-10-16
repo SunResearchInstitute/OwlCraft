@@ -1,11 +1,9 @@
 package net.owlcraft.core.spells.implementation.space;
 
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.owlcraft.core.OwlCraft;
 import net.owlcraft.core.spells.Spell;
 import net.owlcraft.core.spells.SpellContext;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
