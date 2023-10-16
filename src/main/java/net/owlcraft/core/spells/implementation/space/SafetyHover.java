@@ -24,7 +24,7 @@ public class SafetyHover extends Spell implements Listener {
     private final ShapelessRecipe recipe;
 
     public SafetyHover() {
-        recipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.DARK_PURPLE, new ItemStack(Material.TNT, 2));
+        recipe = this.createGlyphRecipe(null, 1, true, NamedTextColor.DARK_PURPLE, new ItemStack(Material.FEATHER, 1));
     }
 
     @Override
@@ -68,6 +68,7 @@ public class SafetyHover extends Spell implements Listener {
             }
             if (event.getOldEffect() != null && (event.getOldEffect().getType().equals(PotionEffectType.SLOW_FALLING))) {
                 this.getSpellManager().setInactive(this, player, true);
+                player.sendRichMessage("<green>cleared your effect");
             }
         }
     }
