@@ -8,7 +8,10 @@ import net.owlcraft.core.spells.SpellContext;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.potion.PotionEffect;
@@ -50,15 +53,31 @@ public class SafetyHover extends Spell implements Listener {
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 2, 255, false, false, true));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 6, 0, false, false, true));
 
-        BukkitTask task = Bukkit.getScheduler().runTaskLater(OwlCraft.getInstance(), () -> this.getSpellManager().setInactive(this, player, true), 6);
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
             player.removePotionEffect(PotionEffectType.LEVITATION);
             player.removePotionEffect(PotionEffectType.SLOW_FALLING);
-            if (!task.isCancelled())
-                task.cancel();
         }));
 
         return true;
     }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onEntityPotionEffectEvent(EntityPotionEffectEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (!(this.getSpellManager().isActive(this, player))) {
+                return;
+            }
+            if (event.getOldEffect() != null && (event.getOldEffect().getType().equals(PotionEffectType.SLOW_FALLING))) {
+                if (event.getNewEffect() == null) {
+                    //We check to make sure a plugin (most likely Cleanse) or milk removed the effects
+                    if ((event.getCause().equals(EntityPotionEffectEvent.Cause.MILK) || event.getCause().equals(EntityPotionEffectEvent.Cause.PLUGIN))) {
+                        this.getSpellManager().setInactive(this, player, true);
+                    }
+                }
+            }
+        }
+    }
+
+
 
 }
