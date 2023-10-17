@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -72,6 +73,15 @@ public class SafetyHover extends Spell implements Listener {
         }
     }
 
-
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    private void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
+        if (event.getEntity() instanceof Player player) {
+            if (!(this.getSpellManager().isActive(this, player))) {
+                return;
+            }
+            if (player.hasPotionEffect(PotionEffectType.LEVITATION))
+                player.removePotionEffect(PotionEffectType.LEVITATION);
+        }
+    }
 
 }
