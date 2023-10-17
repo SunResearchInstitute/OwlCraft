@@ -50,7 +50,7 @@ public class SafetyHover extends Spell implements Listener {
             return false;
         }
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, MiscUtils.timeToTicks(0, 2), 255, false, false, true));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, MiscUtils.timeToTicks(0, 6), 0, false, false, true));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, MiscUtils.timeToTicks(0, 5), 0, false, false, true));
 
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
             player.removePotionEffect(PotionEffectType.LEVITATION);
@@ -68,7 +68,6 @@ public class SafetyHover extends Spell implements Listener {
             }
             if (event.getOldEffect() != null && (event.getOldEffect().getType().equals(PotionEffectType.SLOW_FALLING))) {
                 this.getSpellManager().setInactive(this, player, true);
-                player.sendRichMessage("<green>cleared your effect");
             }
         }
     }
