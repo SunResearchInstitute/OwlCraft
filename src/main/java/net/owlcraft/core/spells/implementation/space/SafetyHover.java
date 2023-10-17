@@ -63,7 +63,7 @@ public class SafetyHover extends Spell implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    private void onEntityPotionEffectEvent(EntityPotionEffectEvent event) throws InterruptedException {
+    private void onEntityPotionEffectEvent(EntityPotionEffectEvent event) {
         if (event.getEntity() instanceof Player player) {
             if (!(this.getSpellManager().isActive(this, player))) {
                 return;
