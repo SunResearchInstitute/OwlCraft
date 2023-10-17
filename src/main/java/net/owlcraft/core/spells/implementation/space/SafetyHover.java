@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -50,12 +49,14 @@ public class SafetyHover extends Spell implements Listener {
         if (player.hasPotionEffect(PotionEffectType.LEVITATION) || player.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
             return false;
         }
+        player.setInvulnerable(true);
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, MiscUtils.timeToTicks(0, 2), 255, false, false, true));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, MiscUtils.timeToTicks(0, 5), 0, false, false, true));
 
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
             player.removePotionEffect(PotionEffectType.LEVITATION);
             player.removePotionEffect(PotionEffectType.SLOW_FALLING);
+            player.setInvulnerable(false);
         }));
 
         return true;
@@ -70,17 +71,6 @@ public class SafetyHover extends Spell implements Listener {
             if (event.getOldEffect() != null && (event.getOldEffect().getType().equals(PotionEffectType.SLOW_FALLING))) {
                 this.getSpellManager().setInactive(this, player, true);
             }
-        }
-    }
-
-    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
-    private void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
-        if (event.getEntity() instanceof Player player) {
-            if (!(this.getSpellManager().isActive(this, player))) {
-                return;
-            }
-            if (player.hasPotionEffect(PotionEffectType.LEVITATION))
-                player.removePotionEffect(PotionEffectType.LEVITATION);
         }
     }
 
