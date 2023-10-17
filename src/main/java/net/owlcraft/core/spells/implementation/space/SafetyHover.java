@@ -63,18 +63,13 @@ public class SafetyHover extends Spell implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    private void onEntityPotionEffectEvent(EntityPotionEffectEvent event) {
+    private void onEntityPotionEffectEvent(EntityPotionEffectEvent event) throws InterruptedException {
         if (event.getEntity() instanceof Player player) {
             if (!(this.getSpellManager().isActive(this, player))) {
                 return;
             }
-            if (event.getOldEffect() != null) {
-                if (event.getOldEffect().getType().equals(PotionEffectType.SLOW_FALLING)) {
-                    this.getSpellManager().setInactive(this, player, true);
-                }
-                else if (event.getOldEffect().getType().equals(PotionEffectType.LEVITATION)) {
-                    player.setInvulnerable(false);
-                }
+            if (event.getOldEffect() != null && (event.getOldEffect().getType().equals(PotionEffectType.SLOW_FALLING))) {
+                this.getSpellManager().setInactive(this, player, true);
             }
         }
     }
