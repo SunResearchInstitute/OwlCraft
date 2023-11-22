@@ -8,6 +8,7 @@ import net.owlcraft.core.spells.implementation.fire.Fireball;
 import net.owlcraft.core.spells.implementation.ice.Ice;
 import net.owlcraft.core.spells.implementation.space.SafetyHover;
 import net.owlcraft.core.spells.implementation.space.TeleportAnchor;
+
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;
@@ -73,7 +74,6 @@ public class SpellManager implements Listener {
         return this.glyphs.get(glyph);
     }
 
-
     public Collection<Spell> getSpells() {
         return (Collections.unmodifiableCollection(this.spells.values()));
     }
@@ -89,7 +89,6 @@ public class SpellManager implements Listener {
         }
         return (player.isValid());
     }
-
 
     public void setActive(Spell spell, Player player, SpellContext<?> context, Collection<Entity> targets) {
         Map<Spell, SpellContext<?>> activeSpells = this.activeSpells.computeIfAbsent(player, k -> new HashMap<>());
@@ -149,8 +148,9 @@ public class SpellManager implements Listener {
         return (activeSpell.get(spell));
     }
 
+    @SuppressWarnings("unchecked")
     public <T> SpellContext<T> getContext(Spell spell, Player player, Class<T> contextClass) {
-        return ((SpellContext<T>) this.getContext(spell, player));
+        return (SpellContext<T>) this.getContext(spell, player);
     }
 
     public boolean isActive(Spell spell, Player player) {
