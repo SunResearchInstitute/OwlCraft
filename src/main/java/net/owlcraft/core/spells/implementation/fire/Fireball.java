@@ -43,6 +43,11 @@ public class Fireball extends Spell{
     }
 
     @Override
+    public int getCustomModelData() {
+        return 1;
+    }
+
+    @Override
     public boolean deactivateOnDeath() {
         return false;
     }
