@@ -13,8 +13,10 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Ice extends Spell {
@@ -57,20 +59,17 @@ public class Ice extends Spell {
 
         int targetCnt = 0;
 
-        for (Entity target : player.getNearbyEntities(4 + level, 4 + level, 4 + level)) {
-            if (target instanceof LivingEntity && this.isTargetable(player, target)
-                    && !((LivingEntity) target).hasPotionEffect(PotionEffectType.INVISIBILITY)) {
-                targetCnt++;
-
-                ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, ticks, level - 1, false, false, true));
-                ((LivingEntity) target).addPotionEffect(new PotionEffect(PotionEffectType.JUMP, ticks, 255, false, false, true));
-                BukkitTask task = Bukkit.getScheduler().runTaskTimer(OwlCraft.getInstance(), () -> {
-                    if (!target.isDead())
-                        target.getWorld().spawnParticle(Particle.REDSTONE, target.getLocation(), 15, 0.5, 0.5, 0.5, new Particle.DustOptions(Color.AQUA, 2));
-                }, 0, 10);
-                Bukkit.getScheduler().runTaskLater(OwlCraft.getInstance(), task::cancel, ticks);
-            }
+        for (LivingEntity target : player.getLocation().getNearbyLivingEntities(4, 4, 4, (livingEntity -> this.isTargetable(player, livingEntity) && !livingEntity.hasPotionEffect(PotionEffectType.INVISIBILITY)))) {
+            targetCnt++;
+            target.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, ticks, level - 1, false, false, true));
+            target.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, ticks, 255, false, false, true));
+            BukkitTask task = Bukkit.getScheduler().runTaskTimerAsynchronously(OwlCraft.getInstance(), () -> {
+                if (!target.isDead() && target.isValid())
+                    target.getWorld().spawnParticle(Particle.REDSTONE, target.getLocation(), 15, 0.5, 0.5, 0.5, new Particle.DustOptions(Color.AQUA, 2));
+            }, 0, 10);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(OwlCraft.getInstance(), task::cancel, ticks);
         }
+
         if (targetCnt > 0) {
             return true;
         } else {
