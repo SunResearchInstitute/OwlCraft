@@ -2,7 +2,7 @@ name: "OwlCraft"
 version: ${project.version}
 main: net.owlcraft.core.OwlCraft
 
-api-version: "1.19"
+api-version: "1.20"
 description: OwlCraft Plugin
 authors: [ "gabehxd", "SunResearchInstitute" ]
 
