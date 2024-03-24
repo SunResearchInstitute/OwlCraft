@@ -49,14 +49,16 @@ public class SafetyHover extends Spell implements Listener {
         if (player.hasPotionEffect(PotionEffectType.LEVITATION) || player.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
             return false;
         }
-        player.setInvulnerable(true);
+
+        player.setLastDamage(Double.MAX_VALUE);
+        player.setNoDamageTicks(MiscUtils.timeToTicks(0, 5));
+
         player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, MiscUtils.timeToTicks(0, 2), 255, false, false, true));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, MiscUtils.timeToTicks(0, 5), 0, false, false, true));
 
         this.getSpellManager().setActive(this, player, new SpellContext<>(() -> {
             player.removePotionEffect(PotionEffectType.LEVITATION);
             player.removePotionEffect(PotionEffectType.SLOW_FALLING);
-            player.setInvulnerable(false);
         }));
 
         return true;
