@@ -73,7 +73,7 @@ public abstract class Spell {
      * @param ignoreBlacklist Whether to consult the entity blacklist or not.
      * @return Whether the entity is a suitable target.
      */
-    protected boolean isTargetable(Player what, Entity target, boolean ignoreBlacklist) {
+    public boolean isTargetable(Player what, Entity target, boolean ignoreBlacklist) {
         if (!ignoreBlacklist && Spell.isBlacklisted(target)) {
             return (false);
         }
@@ -104,7 +104,7 @@ public abstract class Spell {
      * @param target The target player.
      * @return Whether the player is a suitable target.
      */
-    protected boolean isTargetable(Player player, Entity target) {
+    public boolean isTargetable(Player player, Entity target) {
         return (this.isTargetable(player, target, false));
     }
 
@@ -175,7 +175,7 @@ public abstract class Spell {
 
         ItemStack stack = new ItemStack(Material.PAPER);
         ItemMeta meta = stack.getItemMeta();
-        meta.displayName(Component.text(size + (!size.equals("") ? " " : "") + this.getName() + " Glyph").color(NamedTextColor.AQUA));
+        meta.displayName(Component.text(size + (!size.isEmpty() ? " " : "") + this.getName() + " Glyph").color(NamedTextColor.AQUA));
         meta.lore(ChatUtils.createLore(this.getDescription(), loreChatColor));
         meta.setCustomModelData(this.getCustomModelData());
         meta.addEnchant(Enchantment.DURABILITY, 5, true);
@@ -184,7 +184,7 @@ public abstract class Spell {
         meta.getPersistentDataContainer().set(Spell.SPELL_LEVEL_KEY, PersistentDataType.INTEGER, level);
         stack.setItemMeta(meta);
 
-        ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.equals("") ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph"), stack);
+        ShapelessRecipe recipe = new ShapelessRecipe(new NamespacedKey(OwlCraft.getInstance(), size.toLowerCase() + (!size.isEmpty() ? "_" : "") + getName().replace(" ", "").toLowerCase() + "_glyph"), stack);
         if (includeBaseIngredients) {
             recipe.addIngredient(Material.PAPER);
             recipe.addIngredient(Material.INK_SAC);
